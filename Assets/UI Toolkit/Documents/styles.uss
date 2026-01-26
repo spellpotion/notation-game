@@ -1,0 +1,18 @@
+:root {
+}
+
+.horizontal-line {
+    background-color: rgb(26, 26, 26);
+    height: 20px;
+}
+
+.horizontal-halfline {
+    height: 10px;
+}
+
+.horizontal-line-space {
+    height: 152px;
+}
+
+.interstaff-space {
+}
