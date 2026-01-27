@@ -2,7 +2,6 @@
 }
 
 .horizontal-line {
-    background-color: rgb(26, 26, 26);
     height: 20px;
 }
 
@@ -14,5 +13,12 @@
     height: 152px;
 }
 
-.interstaff-space {
+
+
+.line-ledger {
+    background-color: rgb(153, 153, 153);
+}
+
+.line-staff {
+    background-color: rgb(26, 26, 26);
 }

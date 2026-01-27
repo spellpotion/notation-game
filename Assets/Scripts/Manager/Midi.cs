@@ -1,13 +1,24 @@
-using jp.kshoji.midisystem;
+﻿using jp.kshoji.midisystem;
 using jp.kshoji.unity.midi;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace spellpotion.midiTutor
+namespace spellpotion.midiTutor.Manager
 {
-    public class MidiDebug : MonoBehaviour, IMidiAllEventsHandler, IMidiDeviceEventHandler
+    public class Midi : 抽象Manager<Midi, Config.Midi>,
+        IMidiAllEventsHandler, IMidiDeviceEventHandler
     {
-        private readonly List<string> receivedMidiMessages = new ();
+        #region Events
+
+
+        public static ActionEvent<int> OnNoteOn = new(out onNoteOn);
+        private static Action<int> onNoteOn;
+
+
+        #endregion Events
+
+        private readonly List<string> receivedMidiMessages = new();
 
         private void Awake()
         {
@@ -78,6 +89,8 @@ namespace spellpotion.midiTutor
         {
             receivedMidiMessages.Add($"OnMidiNoteOn from: {deviceId}, channel: {channel}, note: {note}, velocity: {velocity}");
 
+            onNoteOn?.Invoke(note);
+
             Report();
         }
 
@@ -144,9 +157,12 @@ namespace spellpotion.midiTutor
             throw new System.NotImplementedException();
         }
 
+        // #5
         public void OnMidiSystemExclusive(string deviceId, int group, byte[] systemExclusive)
         {
-            throw new System.NotImplementedException();
+            receivedMidiMessages.Add($"OnMidiSystemExclusive from: {deviceId}, systemExclusive: {BitConverter.ToString(systemExclusive).Replace("-", " ")}");
+
+            Report();
         }
 
         public void OnMidiTimeCodeQuarterFrame(string deviceId, int group, int timing)
@@ -163,5 +179,7 @@ namespace spellpotion.midiTutor
         {
             throw new System.NotImplementedException();
         }
+
+        protected static new string 名 => "[<color=violet>MIDI長</color>]";
     }
 }
