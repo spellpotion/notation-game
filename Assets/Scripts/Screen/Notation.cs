@@ -10,7 +10,7 @@ namespace spellpotion.midiTutor.Screen
     [RequireComponent(typeof(UIDocument))]
     public class Notation : 抽象Screen
     {
-        private const float offsetXMax = 4000f;
+        private const float offsetXMax = 1200f;
         private const float duration = 4f;
 
         private VisualElement note;
@@ -118,8 +118,10 @@ namespace spellpotion.midiTutor.Screen
                 var progress = Mathf.Clamp01(time / duration);
 
                 var offsetX = new Length(offsetXMax - progress * difference, LengthUnit.Percent);
+                var easeOut = Utils.EaseOut(0, 1f, progress * 4f);
 
                 note.style.translate = new Translate(offsetX, 0f, 0f);
+                note.style.opacity = easeOut;
 
                 yield return null;
             }
