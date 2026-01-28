@@ -13,10 +13,8 @@
     height: 152px;
 }
 
-
-
 .line-ledger {
-    background-color: rgb(153, 153, 153);
+    background-color: rgba(153, 153, 153, 0);
 }
 
 .line-staff {

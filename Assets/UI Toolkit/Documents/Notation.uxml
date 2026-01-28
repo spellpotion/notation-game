@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Documents/styles.uss?fileID=7433441132597879392&amp;guid=f282fee335b048548966eb3c5609d99c&amp;type=3#styles"/>
     <ui:VisualElement name="main-container" style="flex-grow: 1; justify-content: center;">
-        <ui:VisualElement name="staff-container" style="background-color: rgb(245, 245, 245); aspect-ratio: 8; flex-direction: row;">
+        <ui:VisualElement name="staff-container" style="background-color: rgb(245, 245, 245); aspect-ratio: 8; flex-direction: row; width: 90%; align-self: center;">
             <ui:VisualElement name="vertical-space" style="flex-grow: 1; max-width: 1.8%;"/>
             <ui:VisualElement name="vertical-line" style="flex-grow: 1; max-width: 0.25%; background-color: rgb(26, 26, 26); height: 41.6%; align-self: center;"/>
             <ui:VisualElement name="staff-lines-container" style="flex-grow: 1;">
@@ -27,10 +27,22 @@
                 <ui:VisualElement name="line-space" class="horizontal-line-space" style="flex-grow: 1;"/>
                 <ui:VisualElement name="half-line" class="horizontal-halfline line-ledger" style="flex-grow: 1;"/>
             </ui:VisualElement>
-            <ui:VisualElement name="note" style="flex-grow: 1; position: absolute; height: 10%; -unity-background-scale-mode: scale-to-fit; aspect-ratio: 1.64; translate: 400% 850%;">
-                <ui:Image name="ledger-image" style="background-image: url(&quot;project://database/Assets/Sprites/ledgerline.png?fileID=2800000&amp;guid=5bee6384b3ed86f46b2221a4455ee5fd&amp;type=3#ledgerline&quot;); position: absolute; -unity-background-image-tint-color: rgb(26, 26, 26); flex-grow: 1; left: -20%; right: -20%; bottom: 15%; top: 15%; translate: 0% 0%; display: none;"/>
-                <ui:Image name="wholenote-image" style="background-image: url(&quot;project://database/Assets/Sprites/wholenote.png?fileID=2800000&amp;guid=1149410e2e2ce554e96600f480385d0d&amp;type=3#wholenote&quot;); flex-grow: 1; -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(26, 26, 26);"/>
+            <ui:VisualElement name="note" style="flex-grow: 1; position: absolute; height: 10%; -unity-background-scale-mode: scale-to-fit; aspect-ratio: 1.64; translate: 400% 800%;">
+                <ui:Image name="ledger-image" style="background-image: url(&quot;project://database/Assets/Sprites/ledgerline.png?fileID=2800000&amp;guid=5bee6384b3ed86f46b2221a4455ee5fd&amp;type=3#ledgerline&quot;); position: absolute; -unity-background-image-tint-color: rgb(26, 26, 26); flex-grow: 1; translate: -10% 0%; display: none; aspect-ratio: 2; height: 100%;"/>
+                <ui:Image name="wholenote-image" style="background-image: url(&quot;project://database/Assets/Sprites/wholenote.png?fileID=2800000&amp;guid=1149410e2e2ce554e96600f480385d0d&amp;type=3#wholenote&quot;); flex-grow: 1; -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(26, 26, 26); display: flex;"/>
+                <ui:Image name="sharp-image" style="position: absolute; -unity-background-scale-mode: scale-to-fit; aspect-ratio: 0.29; height: 280%; background-image: url(&quot;project://database/Assets/Sprites/sharp.png?fileID=2800000&amp;guid=cc2fe4f2ea234b446a6456f4b6902486&amp;type=3#sharp&quot;); -unity-background-image-tint-color: rgb(26, 26, 26); translate: -120% -33%; display: none;"/>
+                <ui:Image name="flat-image" style="position: absolute; background-image: url(&quot;project://database/Assets/Sprites/flat.png?fileID=2800000&amp;guid=68fd593a333b2994cbd8206a5f991422&amp;type=3#flat&quot;); -unity-background-scale-mode: scale-to-fit; height: 260%; -unity-background-image-tint-color: rgb(26, 26, 26); aspect-ratio: 0.3; translate: -120% -55%; display: none;"/>
+                <ui:VisualElement name="ledger-container" style="flex-grow: 1; position: absolute; height: 300%; width: 120%; translate: -8% -33.3%;">
+                    <ui:VisualElement name="half-line" class="horizontal-halfline line-ledger" style="flex-grow: 1;"/>
+                    <ui:VisualElement name="line-space" class="horizontal-line-space" style="flex-grow: 1;"/>
+                    <ui:VisualElement name="ledger-line-top" class="horizontal-line line-staff" style="flex-grow: 1; opacity: 1;"/>
+                    <ui:VisualElement name="line-space" class="horizontal-line-space" style="flex-grow: 1; opacity: 1;"/>
+                    <ui:VisualElement name="ledger-line-bot" class="horizontal-line line-staff" style="flex-grow: 1;"/>
+                    <ui:VisualElement name="line-space" class="horizontal-line-space" style="flex-grow: 1;"/>
+                    <ui:VisualElement name="half-line" class="horizontal-halfline line-ledger" style="flex-grow: 1;"/>
+                </ui:VisualElement>
             </ui:VisualElement>
+            <ui:VisualElement name="f-clef" style="flex-grow: 1; position: absolute; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Vector%20Images/FClef.svg?fileID=7388822144124034973&amp;guid=364b9403f02759e4290186ed7005510e&amp;type=3#FClef&quot;); height: 31%; aspect-ratio: 0.9; display: none;"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
