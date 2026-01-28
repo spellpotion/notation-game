@@ -10,17 +10,15 @@ namespace spellpotion.midiTutor.Screen
     [RequireComponent(typeof(UIDocument))]
     public class Notation : 抽象Screen
     {
-        private const float offsetXMax = 4700f;
-        private const float offsetXMin = 400f;
+        private const float offsetXMax = 4000f;
         private const float duration = 4f;
 
         private VisualElement note;
-        private VisualElement ledger;
-        private VisualElement ledger上;
-        private VisualElement ledger下;
 
-        private Image sharp;
-        private Image flat;
+        private VisualElement flat;
+        private VisualElement ledger1;
+        private VisualElement ledger2;
+        private VisualElement sharp;
 
         private Coroutine releaseNote務;
         private Coroutine demo務;
@@ -64,17 +62,17 @@ namespace spellpotion.midiTutor.Screen
             note = root.Q<VisualElement>("note");
             note.style.display = DisplayStyle.None;
 
-            flat = root.Q<Image>("flat-image");
+            flat = root.Q<VisualElement>("flat");
             flat.style.display = DisplayStyle.None;
 
-            sharp = root.Q<Image>("sharp-image");
+            sharp = root.Q<VisualElement>("sharp");
             sharp.style.display = DisplayStyle.None;
 
-            ledger = root.Q<VisualElement>("ledger-container");
-            ledger.style.display = DisplayStyle.None;
+            ledger1 = root.Q<VisualElement>("ledger1");
+            ledger1.style.display = DisplayStyle.None;
 
-            ledger上 = root.Q<VisualElement>("ledger-line-top");
-            ledger下 = root.Q<VisualElement>("ledger-line-bot");
+            ledger2 = root.Q<VisualElement>("ledger2");
+            ledger2.style.display = DisplayStyle.None;
         }
 
         protected void Start()
@@ -95,7 +93,8 @@ namespace spellpotion.midiTutor.Screen
 
                 flat.style.display = accidental == Accidental.Flat ? DisplayStyle.Flex : DisplayStyle.None;
                 sharp.style.display = accidental == Accidental.Sharp ? DisplayStyle.Flex : DisplayStyle.None;
-                ShowLedger(lineNote);
+
+                UpdateLedger(lineNote);
 
                 releaseNote務 = StartCoroutine(ReleaseNote務(lineNote));
 
@@ -105,13 +104,13 @@ namespace spellpotion.midiTutor.Screen
 
         private IEnumerator ReleaseNote務(LineNote lineNote)
         {
-            var offsetY = new Length(LineNoteToBassOffset(lineNote), LengthUnit.Percent);
-            var difference = offsetXMax - offsetXMin;
+            var difference = offsetXMax;
 
             var time始 = Time.time;
             var time的 = time始 + duration;
 
             note.style.display = DisplayStyle.Flex;
+            note.style.top = new Length(LineNoteToTopOffset(lineNote), LengthUnit.Percent);
 
             while (Time.time < time的)
             {
@@ -120,7 +119,7 @@ namespace spellpotion.midiTutor.Screen
 
                 var offsetX = new Length(offsetXMax - progress * difference, LengthUnit.Percent);
 
-                note.style.translate = new Translate(offsetX, offsetY, 0f);
+                note.style.translate = new Translate(offsetX, 0f, 0f);
 
                 yield return null;
             }
@@ -130,44 +129,48 @@ namespace spellpotion.midiTutor.Screen
             releaseNote務 = null;
         }
 
-        private static readonly Dictionary<LineNote, (Length y, float top, float bottom)> LedgerMap = new()
+        private static readonly Dictionary<LineNote, (Length? offset1, Length? offset2)> LedgerOffset = new()
         {
-            [LineNote.F4] = (Offset(0f), 100f, 100f),
-            [LineNote.E4] = (Offset(-16.66f), 100f, 100f),
-            [LineNote.D4] = (Offset(-33.33f), 0f, 100f),
-            [LineNote.C4] = (Offset(-50f), 0f, 100f),
+            [LineNote.F4] = (Offset(300f), Offset(900f)),
+            [LineNote.E4] = (Offset(0f), Offset(600f)),
+            [LineNote.D4] = (Offset(300f), null),
+            [LineNote.C4] = (Offset(0f), null),
 
-            [LineNote.E2] = (Offset(-16.66f), 100f, 0f),
-            [LineNote.D2] = (Offset(-33.33f), 100f, 0f),
-            [LineNote.C2] = (Offset(-50f), 100f, 100f),
-            [LineNote.B2] = (Offset(-66.66f), 100f, 100f),
+            [LineNote.E2] = (Offset(0f), null),
+            [LineNote.D2] = (Offset(-300f), null),
+            [LineNote.C2] = (Offset(0f), Offset(-600f)),
+            [LineNote.B1] = (Offset(-300f), Offset(-900f)),
         };
-
-        private static readonly Length LedgerX = new(-8f, LengthUnit.Percent);
 
         private static Length Offset(float value) => new(value, LengthUnit.Percent);
 
-        private void ShowLedger(LineNote lineNote)
+        private void UpdateLedger(LineNote lineNote)
         {
             if ((lineNote > LineNote.E2) && (lineNote < LineNote.C4))
             {
-                ledger.style.display = DisplayStyle.None;
+                ledger1.style.display = DisplayStyle.None;
+                ledger2.style.display = DisplayStyle.None;
                 return;
             }
 
-            ledger.style.display = DisplayStyle.Flex;
+            var ledgerOffset = LedgerOffset[lineNote];
 
-            if (!LedgerMap.TryGetValue(lineNote, out var cfg))
+            if (ledgerOffset.offset1.HasValue)
             {
-                cfg = (Offset(0f), 0f, 0f);
+                ledger1.style.display = DisplayStyle.Flex;
+                ledger1.style.translate = new Translate(0, ledgerOffset.offset1.Value);
             }
+            else ledger1.style.display = DisplayStyle.None;
 
-            ledger上.style.opacity = cfg.top;
-            ledger下.style.opacity = cfg.bottom;
-            ledger.style.translate = new Translate(LedgerX, cfg.y, 0f);
+            if (ledgerOffset.offset2.HasValue)
+            {
+                ledger2.style.display = DisplayStyle.Flex;
+                ledger2.style.translate = new Translate(0, ledgerOffset.offset2.Value);
+            }
+            else ledger2.style.display = DisplayStyle.None;
         }
 
-        private LineNote MidiNoteToLineNote(int midiNote) => midiNote switch
+        private static LineNote MidiNoteToLineNote(int midiNote) => midiNote switch
         {
             47 => LineNote.B1,
             48 => LineNote.C2,
@@ -191,7 +194,7 @@ namespace spellpotion.midiTutor.Screen
             _ => LineNote.Unknown
         };
 
-        private LineNote NoteNameToLineNote(NoteName noteName) => noteName switch
+        private static LineNote NoteNameToLineNote(NoteName noteName) => noteName switch
         {
             NoteName.B1 => LineNote.B1,
             NoteName.C2 => LineNote.C2,
@@ -239,7 +242,7 @@ namespace spellpotion.midiTutor.Screen
             _ => LineNote.Unknown
         };
 
-        private Accidental NoteNameToAccidental(NoteName noteName) => noteName switch
+        private static Accidental NoteNameToAccidental(NoteName noteName) => noteName switch
         {
             NoteName.CS2 => Accidental.Sharp,
             NoteName.DF2 => Accidental.Flat,
@@ -268,27 +271,27 @@ namespace spellpotion.midiTutor.Screen
             _ => Accidental.None
         };
 
-        private float LineNoteToBassOffset(LineNote lineNote) => lineNote switch
+        private static float LineNoteToTopOffset(LineNote lineNote) => lineNote switch
         {
             LineNote.F4 => 0,
-            LineNote.E4 => 50,
-            LineNote.D4 => 100,
-            LineNote.C4 => 150,
-            LineNote.B3 => 200,
-            LineNote.A3 => 250,
-            LineNote.G3 => 300,
-            LineNote.F3 => 350,
-            LineNote.E3 => 400,
-            LineNote.D3 => 450,
-            LineNote.C3 => 500,
-            LineNote.B2 => 550,
-            LineNote.A2 => 600,
-            LineNote.G2 => 650,
-            LineNote.F2 => 700,
-            LineNote.E2 => 750,
-            LineNote.D2 => 800,
-            LineNote.C2 => 850,
-            LineNote.B1 => 900,
+            LineNote.E4 => 5,
+            LineNote.D4 => 10,
+            LineNote.C4 => 15,
+            LineNote.B3 => 20,
+            LineNote.A3 => 25,
+            LineNote.G3 => 30,
+            LineNote.F3 => 35,
+            LineNote.E3 => 40,
+            LineNote.D3 => 45,
+            LineNote.C3 => 50,
+            LineNote.B2 => 55,
+            LineNote.A2 => 60,
+            LineNote.G2 => 65,
+            LineNote.F2 => 70,
+            LineNote.E2 => 75,
+            LineNote.D2 => 80,
+            LineNote.C2 => 85,
+            LineNote.B1 => 90,
             _ => -1
         };
     }
