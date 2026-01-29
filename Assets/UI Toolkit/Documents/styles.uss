@@ -1,22 +1,83 @@
 :root {
 }
 
-.horizontal-line {
-    height: 20px;
+.white-key {
+    flex-grow: 1;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    background-color: rgb(245, 245, 245);
+    width: 43px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 1%;
+    padding-left: 0;
+    border-top-width: 0;
+    border-right-width: 1px;
+    border-bottom-width: 4px;
+    border-left-width: 1px;
+    border-left-color: rgb(196, 195, 191);
+    border-right-color: rgb(153, 153, 153);
+    border-top-color: rgb(26, 26, 26);
+    border-bottom-color: rgb(26, 26, 26);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    -unity-text-align: lower-center;
+    -unity-font-style: normal;
+    font-size: 20px;
 }
 
-.horizontal-halfline {
-    height: 10px;
+.white-key:hover {
+    background-color: rgb(211, 211, 211);
 }
 
-.horizontal-line-space {
-    height: 152px;
+.white-key:active {
+    background-color: rgb(245, 245, 245);
 }
 
-.line-ledger {
-    background-color: rgba(153, 153, 153, 0);
+.black-key {
+    width: 30px;
+    background-color: rgb(51, 51, 51);
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 1%;
+    padding-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    border-left-color: rgb(85, 85, 85);
+    border-right-color: rgb(34, 34, 34);
+    border-top-color: rgb(102, 102, 102);
+    border-bottom-color: rgb(26, 26, 26);
+    border-top-width: 1px;
+    border-right-width: 3px;
+    border-bottom-width: 10px;
+    border-left-width: 3px;
+    flex-grow: 1;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
-.line-staff {
-    background-color: rgb(26, 26, 26);
+.black-key:hover {
+    background-color: rgb(77, 77, 77);
+}
+
+.black-key:active {
+    background-color: rgb(51, 51, 51);
+}
+
+.key-space-L {
+    width: 54px;
+    flex-grow: 1;
+}
+
+.key-space-S {
+    width: 9px;
+    flex-grow: 1;
 }

@@ -27,6 +27,7 @@ namespace spellpotion.midiTutor
     public enum NoteName
     {
         Unknown,
+        BF1,
         B1,
         C2,
         CS2,
@@ -70,6 +71,44 @@ namespace spellpotion.midiTutor
         EF4,
         E4,
         F4,
+        FS4,
+    }
+
+    public enum BassKey
+    {
+        A1B1,
+        B1,
+        C2,
+        C2D2,
+        D2,
+        D2E2,
+        E2,
+        F2,
+        F2G2,
+        G2,
+        G2A2,
+        A2,
+        A2B2,
+        B2,
+        C3,
+        C3D3,
+        D3,
+        D3E3,
+        E3,
+        F3,
+        F3G3,
+        G3,
+        G3A3,
+        A3,
+        A3B3,
+        B3,
+        C4,
+        C4D4,
+        D4,
+        D4E4,
+        E4,
+        F4,
+        F4G4,
     }
 
     public enum Accidental

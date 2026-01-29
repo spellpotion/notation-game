@@ -20,6 +20,9 @@ namespace spellpotion.midiTutor.Screen
         private VisualElement ledger2;
         private VisualElement sharp;
 
+        private readonly Button[] keyButtons
+            = new Button[((BassKey[])Enum.GetValues(typeof(BassKey))).Length];
+
         private Coroutine releaseNote務;
         private Coroutine demo務;
 
@@ -55,6 +58,11 @@ namespace spellpotion.midiTutor.Screen
             //releaseNote務 = StartCoroutine(ReleaseNote務(lineNote));
         }
 
+        private void OnNoteOn(BassKey keyName)
+        {
+            Debug.Log($"DBG NoteOn {keyName}");
+        }
+
         protected void Awake()
         {
             var root = GetComponent<UIDocument>().rootVisualElement;
@@ -73,12 +81,26 @@ namespace spellpotion.midiTutor.Screen
 
             ledger2 = root.Q<VisualElement>("ledger2");
             ledger2.style.display = DisplayStyle.None;
+
+            var bassKeys = (BassKey[])Enum.GetValues(typeof(BassKey));
+
+            for (var i = 0; i < bassKeys.Length; i++)
+            {
+                var buttonName = $"key-{Enum.GetName(typeof(BassKey), bassKeys[i]).ToLower()}";
+
+                var button = root.Q<Button>(buttonName);
+                button.clicked += () => { OnNoteOn(bassKeys[i]); };
+
+                keyButtons[i] = button;
+            }
         }
 
         protected void Start()
         {
-            StartCoroutine(Demo務());
+            //StartCoroutine(Demo務());
         }
+
+        private NoteName note現;
 
         private IEnumerator Demo務()
         {
@@ -86,10 +108,10 @@ namespace spellpotion.midiTutor.Screen
 
             while (true)
             {
-                var randomNote = noteNames[Random.Range(1, noteNames.Length)];
+                note現 = noteNames[Random.Range(1, noteNames.Length)];
 
-                var lineNote = NoteNameToLineNote(randomNote);
-                var accidental = NoteNameToAccidental(randomNote);
+                var lineNote = NoteNameToLineNote(note現);
+                var accidental = NoteNameToAccidental(note現);
 
                 flat.style.display = accidental == Accidental.Flat ? DisplayStyle.Flex : DisplayStyle.None;
                 sharp.style.display = accidental == Accidental.Sharp ? DisplayStyle.Flex : DisplayStyle.None;
@@ -198,6 +220,7 @@ namespace spellpotion.midiTutor.Screen
 
         private static LineNote NoteNameToLineNote(NoteName noteName) => noteName switch
         {
+            NoteName.BF1 => LineNote.B1,
             NoteName.B1 => LineNote.B1,
             NoteName.C2 => LineNote.C2,
             NoteName.CS2 => LineNote.C2,
@@ -241,11 +264,13 @@ namespace spellpotion.midiTutor.Screen
             NoteName.EF4 => LineNote.E4,
             NoteName.E4 => LineNote.E4,
             NoteName.F4 => LineNote.F4,
+            NoteName.FS4 => LineNote.F4,
             _ => LineNote.Unknown
         };
 
         private static Accidental NoteNameToAccidental(NoteName noteName) => noteName switch
         {
+            NoteName.BF1 => Accidental.Flat,
             NoteName.CS2 => Accidental.Sharp,
             NoteName.DF2 => Accidental.Flat,
             NoteName.DS2 => Accidental.Sharp,
@@ -270,6 +295,7 @@ namespace spellpotion.midiTutor.Screen
             NoteName.DF4 => Accidental.Flat,
             NoteName.DS4 => Accidental.Sharp,
             NoteName.EF4 => Accidental.Flat,
+            NoteName.FS4 => Accidental.Sharp,
             _ => Accidental.None
         };
 
@@ -295,6 +321,18 @@ namespace spellpotion.midiTutor.Screen
             LineNote.C2 => 85,
             LineNote.B1 => 90,
             _ => -1
+        };
+
+        private static readonly List<string> ButtonNames = new()
+        {
+            "key-b1",
+            "key-a1b1",
+            "key-c2", "key-d2", "key-e2", "key-f2", "key-g2", "key-a2", "key-b2",
+             "key-c2d2", "key-d2e2", "key-f2g2", "key-g2a2", "key-a2b2",
+            "key-c3", "key-d3", "key-e3", "key-f3", "key-g3", "key-a3", "key-b3",
+            "key-c3d3", "key-d3e3", "key-f3g3", "key-g3a3", "key-a3b3",
+            "key-c4", "key-d4", "key-e4", "key-f4",
+            "key-c4d4", "key-d4e4", "key-f4g4",
         };
     }
 }
