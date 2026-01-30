@@ -1,8 +1,8 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Documents/styles.uss?fileID=7433441132597879392&amp;guid=f282fee335b048548966eb3c5609d99c&amp;type=3#styles"/>
     <ui:VisualElement name="main-container" style="flex-grow: 1; justify-content: space-around; background-color: rgba(0, 100, 0, 0);">
-        <ui:VisualElement name="staff-occlusion-container" style="flex-grow: 0; overflow: hidden; flex-direction: row; align-self: center; width: 90%; aspect-ratio: 2.35; background-color: rgb(153, 153, 153);">
-            <ui:VisualElement name="staff-container" style="background-color: rgb(245, 245, 245); aspect-ratio: 3; flex-direction: row; width: 100%; align-self: center; padding-left: 6%; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; display: flex;">
+        <ui:VisualElement name="staff-occlusion-container" style="flex-grow: 0; overflow: hidden; flex-direction: row; align-self: center; width: 90%; aspect-ratio: 2.35; background-color: rgb(153, 153, 153); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;">
+            <ui:VisualElement name="staff-container" style="background-color: rgb(245, 245, 245); aspect-ratio: 3; flex-direction: row; width: 100%; align-self: center; padding-left: 6%; display: flex;">
                 <ui:VisualElement name="grey-zone" style="flex-grow: 1; position: absolute; height: 100%; width: 24%; background-color: rgb(204, 204, 204); left: 0%; display: flex; border-top-left-radius: 10px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 10px;"/>
                 <ui:VisualElement name="staff" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Vector%20Images/Staff.svg?fileID=7388822144124034973&amp;guid=e5f55661771458649825e054b02960e8&amp;type=3#Staff&quot;); background-size: 100% 41.6666%; -unity-background-image-tint-color: rgb(77, 77, 77);">
                     <ui:VisualElement name="f-clef" style="flex-grow: 1; position: absolute; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Vector%20Images/FClef.svg?fileID=7388822144124034973&amp;guid=364b9403f02759e4290186ed7005510e&amp;type=3#FClef&quot;); height: 32%; aspect-ratio: 0.9; display: flex; top: 30%; left: 20px; -unity-background-image-tint-color: rgb(26, 26, 26);"/>
@@ -18,54 +18,54 @@
         </ui:VisualElement>
         <ui:VisualElement name="keyboard" style="align-self: center; aspect-ratio: 8; width: 90%; display: flex;">
             <ui:VisualElement name="white-keys" style="flex-grow: 1; flex-direction: row; padding-top: 0%; padding-right: 0.8%; padding-bottom: 0%; padding-left: 0.8%;">
-                <ui:Button text="" name="key-white-0" class="white-key"/>
-                <ui:Button text="C2" name="key-white-1" class="white-key"/>
-                <ui:Button text="" name="key-white-2" class="white-key"/>
-                <ui:Button text="" name="key-white-3" class="white-key"/>
-                <ui:Button text="" name="key-white-4" enabled="true" class="white-key"/>
-                <ui:Button text="G2" name="key-white-5" class="white-key"/>
-                <ui:Button text="" name="key-white-6" class="white-key"/>
-                <ui:Button text="" name="key-white-7" class="white-key"/>
-                <ui:Button text="" name="key-white-8" class="white-key"/>
-                <ui:Button text="D3" name="key-white-9" class="white-key"/>
-                <ui:Button text="" name="key-white-10" class="white-key"/>
-                <ui:Button text="" name="key-white-11" class="white-key"/>
-                <ui:Button text="" name="key-white-12" class="white-key"/>
-                <ui:Button text="A3" name="key-white-13" enabled="true" class="white-key"/>
-                <ui:Button text="" name="key-white-14" class="white-key"/>
-                <ui:Button text="middle C" name="key-white-15" class="white-key" style="-unity-font-style: normal; font-size: 14px;"/>
-                <ui:Button text="" name="key-white-16" class="white-key"/>
-                <ui:Button text="E4" name="key-white-17" class="white-key"/>
-                <ui:Button text="" name="key-white-18" class="white-key"/>
+                <ui:Button text="" name="key-1" class="white-key"/>
+                <ui:Button text="C2" name="key-2" class="white-key"/>
+                <ui:Button text="" name="key-4" class="white-key"/>
+                <ui:Button text="" name="key-6" class="white-key"/>
+                <ui:Button text="" name="key-7" enabled="true" class="white-key"/>
+                <ui:Button text="G2" name="key-9" class="white-key"/>
+                <ui:Button text="" name="key-11" class="white-key"/>
+                <ui:Button text="" name="key-13" class="white-key"/>
+                <ui:Button text="" name="key-14" class="white-key"/>
+                <ui:Button text="D3" name="key-16" class="white-key"/>
+                <ui:Button text="" name="key-18" class="white-key"/>
+                <ui:Button text="" name="key-19" class="white-key"/>
+                <ui:Button text="" name="key-21" class="white-key"/>
+                <ui:Button text="A3" name="key-23" enabled="true" class="white-key"/>
+                <ui:Button text="" name="key-25" class="white-key"/>
+                <ui:Button text="middle C" name="key-26" class="white-key" style="-unity-font-style: normal; font-size: 14px;"/>
+                <ui:Button text="" name="key-28" class="white-key"/>
+                <ui:Button text="E4" name="key-30" class="white-key"/>
+                <ui:Button text="" name="key-31" class="white-key"/>
             </ui:VisualElement>
             <ui:VisualElement name="black-keys" picking-mode="Ignore" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 40%; flex-direction: row; display: flex;">
-                <ui:Button text="" name="key-black-0" class="black-key"/>
+                <ui:Button text="" name="key-0" class="black-key"/>
                 <ui:VisualElement name="space-L" picking-mode="Ignore" class="key-space-L" style="flex-grow: 1; visibility: visible;"/>
-                <ui:Button text="" name="key-black-1" class="black-key"/>
+                <ui:Button text="" name="key-3" class="black-key"/>
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-2" class="black-key"/>
+                <ui:Button text="" name="key-5" class="black-key"/>
                 <ui:VisualElement name="space-L" picking-mode="Ignore" class="key-space-L" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-3" class="black-key"/>
+                <ui:Button text="" name="key-8" class="black-key"/>
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-4" class="black-key"/>
+                <ui:Button text="" name="key-10" class="black-key"/>
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-5" class="black-key"/>
+                <ui:Button text="" name="key-12" class="black-key"/>
                 <ui:VisualElement name="space-L" picking-mode="Ignore" class="key-space-L" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-6" class="black-key"/>
+                <ui:Button text="" name="key-15" class="black-key"/>
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-7" class="black-key"/>
+                <ui:Button text="" name="key-17" class="black-key"/>
                 <ui:VisualElement name="space-L" picking-mode="Ignore" class="key-space-L" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-8" class="black-key"/>
+                <ui:Button text="" name="key-20" class="black-key"/>
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-9" enabled="true" class="black-key"/>
+                <ui:Button text="" name="key-22" enabled="true" class="black-key"/>
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-10" class="black-key"/>
+                <ui:Button text="" name="key-24" class="black-key"/>
                 <ui:VisualElement name="space-L" picking-mode="Ignore" class="key-space-L" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-11" class="black-key"/>
+                <ui:Button text="" name="key-27" class="black-key"/>
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-12" class="black-key"/>
+                <ui:Button text="" name="key-29" class="black-key"/>
                 <ui:VisualElement name="space-L" picking-mode="Ignore" class="key-space-L" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-black-13" class="black-key"/>
+                <ui:Button text="" name="key-32" class="black-key"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

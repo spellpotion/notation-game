@@ -74,8 +74,9 @@ namespace spellpotion.midiTutor
         FS4,
     }
 
-    public enum BassKey
+    public enum KeyName
     {
+        Unknown,
         A1B1,
         B1,
         C2,

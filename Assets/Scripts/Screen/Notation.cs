@@ -1,4 +1,5 @@
 using spellpotion.midiTutor.Manager;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,9 +13,10 @@ namespace spellpotion.midiTutor.Screen
         private const float durationPulse = .6f;
         private const float durationPulseHalf = .3f;
 
-        private const int blackCount = 14;
-        private const int whiteCount = 19;
+        private const int keyOffsetBass = 1;
+        private const int keyOffsetTreble = 0; // TODO
 
+        private VisualElement root;
         private VisualElement note;
         private VisualElement flat;
         private VisualElement ledger1;
@@ -22,13 +24,12 @@ namespace spellpotion.midiTutor.Screen
         private VisualElement sharp;
         private VisualElement greyZone;
 
-        private readonly Button[] keyButtons
-            = new Button[blackCount + whiteCount];
+        private readonly Button[] keys = new Button[33];
 
         private Coroutine releaseNote務;
         private Coroutine pulse務;
 
-        protected void OnEnable()
+        protected override void OnEnable()
         {
             GameNotation.OnQuery.AddListener(OnQuery);
             GameNotation.OnAnswer.AddListener(OnAnswer);
@@ -63,6 +64,7 @@ namespace spellpotion.midiTutor.Screen
             }
             else ledger2.style.display = DisplayStyle.None;
 
+            SetNull(ref releaseNote務);
             releaseNote務 = StartCoroutine(ReleaseNote務(lineNote, query.duration));
 
             LineNote GetLineNote() => GameNotation.NotationType switch
@@ -75,12 +77,14 @@ namespace spellpotion.midiTutor.Screen
 
         private void OnAnswer(bool value)
         {
+            SetNull(ref pulse務);
+
             pulse務 = StartCoroutine(Pulse務(value));
         }
 
         protected void Awake()
         {
-            var root = GetComponent<UIDocument>().rootVisualElement;
+            root = GetComponent<UIDocument>().rootVisualElement;
 
             note = root.Q<VisualElement>("note");
             note.style.display = DisplayStyle.None;
@@ -98,16 +102,27 @@ namespace spellpotion.midiTutor.Screen
             ledger2.style.display = DisplayStyle.None;
 
             greyZone = root.Q<VisualElement>("staff-occlusion-container");
+        }
 
-            //for (var i = 0; i < bassKeys.Length; i++)
-            //{
-            //    var buttonName = $"key-{Enum.GetName(typeof(BassKey), bassKeys[i]).ToLower()}";
+        protected void Start()
+        {
+            var keyOffset = GameNotation.NotationType == NotationType.Treble ?
+                keyOffsetTreble : keyOffsetBass;
+            var keyNames = (KeyName[])Enum.GetValues(typeof(KeyName));
 
-            //    var button = root.Q<Button>(buttonName);
-            //    button.clicked += () => { OnNoteOn(bassKeys[i]); };
+            for (var i = 0; i < keys.Length; i++)
+            {
+                var buttonName = $"key-{i}";
+                var index = keyOffset + i;
 
-            //    keyButtons[i] = button;
-            //}
+                var button = root.Q<Button>(buttonName);
+                button.clicked += () =>
+                {
+                    GameNotation.Answer(keyNames[index]);
+                };
+
+                keys[i] = button;
+            }
         }
 
         private IEnumerator ReleaseNote務(LineNote lineNote, float duration)
