@@ -118,4 +118,11 @@ namespace spellpotion.midiTutor
         Flat,
         Sharp,
     }
+
+    public enum NotationType
+    {
+        None,
+        Bass,
+        Treble,
+    }
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace spellpotion
@@ -16,6 +18,27 @@ namespace spellpotion
             t = Mathf.Clamp01(t);
             t = 1f - (1f - t) * (1f - t);
             return Mathf.Lerp(from, to, t);
+        }
+
+        public static Color Lerp(Color a, Color b, float t)
+        {
+            t = Mathf.Clamp01(t);
+            return new Color(
+                Mathf.Lerp(a.r, b.r, t),
+                Mathf.Lerp(a.g, b.g, t),
+                Mathf.Lerp(a.b, b.b, t),
+                Mathf.Lerp(a.a, b.a, t)
+            );
+        }
+
+        public static IEnumerator WaitForSecondsOrWhile(float seconds, Func<bool> condition)
+        {
+            var time的 = Time.time + seconds;
+
+            while (Time.time < time的 && condition())
+            {
+                yield return null;
+            }
         }
     }
 }

@@ -1,66 +1,81 @@
-using System;
+using spellpotion.midiTutor.Manager;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Random = UnityEngine.Random;
 
 namespace spellpotion.midiTutor.Screen
 {
     [RequireComponent(typeof(UIDocument))]
     public class Notation : 抽象Screen
     {
-        private const float offsetXMax = 1200f;
-        private const float duration = 4f;
+        private const float translateXMax = 1450f;
+        private const float durationPulse = .6f;
+        private const float durationPulseHalf = .3f;
+
+        private const int blackCount = 14;
+        private const int whiteCount = 19;
 
         private VisualElement note;
-
         private VisualElement flat;
         private VisualElement ledger1;
         private VisualElement ledger2;
         private VisualElement sharp;
+        private VisualElement greyZone;
 
         private readonly Button[] keyButtons
-            = new Button[((BassKey[])Enum.GetValues(typeof(BassKey))).Length];
+            = new Button[blackCount + whiteCount];
 
         private Coroutine releaseNote務;
-        private Coroutine demo務;
+        private Coroutine pulse務;
 
         protected void OnEnable()
         {
-            Manager.Midi.OnNoteOn.AddListener(OnNoteOn);
+            GameNotation.OnQuery.AddListener(OnQuery);
+            GameNotation.OnAnswer.AddListener(OnAnswer);
         }
 
         protected void OnDisable()
         {
-            Manager.Midi.OnNoteOn.RemoveListener(OnNoteOn);
+            GameNotation.OnAnswer.RemoveListener(OnAnswer);
+            GameNotation.OnQuery.RemoveListener(OnQuery);
         }
 
-        private void OnNoteOn(int midiNote)
+        private void OnQuery((NoteName noteName, float duration) query)
         {
-            Debug.Log($"DBG Note {midiNote} received");
+            var lineNote = GetLineNote();
+            var accidental = NoteNameToAccidental(query.noteName);
+            var ledgerOffset = LineNoteToLedgerOffset(lineNote);
 
-            //var lineNote = MidiNoteToLineNote(midiNote);
+            flat.style.display = accidental == Accidental.Flat ? DisplayStyle.Flex : DisplayStyle.None;
+            sharp.style.display = accidental == Accidental.Sharp ? DisplayStyle.Flex : DisplayStyle.None;
 
-            //if (releaseNote務 != null)
-            //{
-            //    StopCoroutine(releaseNote務);
-            //}
+            if (ledgerOffset.offset1.HasValue)
+            {
+                ledger1.style.display = DisplayStyle.Flex;
+                ledger1.style.translate = new Translate(0, ledgerOffset.offset1.Value);
+            }
+            else ledger1.style.display = DisplayStyle.None;
 
-            //if (lineNote == LineNote.Unknown)
-            //{
-            //    note.style.display = DisplayStyle.None;
-            //    releaseNote務 = null;
+            if (ledgerOffset.offset2.HasValue)
+            {
+                ledger2.style.display = DisplayStyle.Flex;
+                ledger2.style.translate = new Translate(0, ledgerOffset.offset2.Value);
+            }
+            else ledger2.style.display = DisplayStyle.None;
 
-            //    return;
-            //}
+            releaseNote務 = StartCoroutine(ReleaseNote務(lineNote, query.duration));
 
-            //releaseNote務 = StartCoroutine(ReleaseNote務(lineNote));
+            LineNote GetLineNote() => GameNotation.NotationType switch
+            {
+                NotationType.Bass => NoteNameToLineNoteBass(query.noteName),
+                NotationType.Treble => NoteNameToLineNoteTreble(query.noteName),
+                _ => LineNote.Unknown
+            };
         }
 
-        private void OnNoteOn(BassKey keyName)
+        private void OnAnswer(bool value)
         {
-            Debug.Log($"DBG NoteOn {keyName}");
+            pulse務 = StartCoroutine(Pulse務(value));
         }
 
         protected void Awake()
@@ -82,51 +97,22 @@ namespace spellpotion.midiTutor.Screen
             ledger2 = root.Q<VisualElement>("ledger2");
             ledger2.style.display = DisplayStyle.None;
 
-            var bassKeys = (BassKey[])Enum.GetValues(typeof(BassKey));
+            greyZone = root.Q<VisualElement>("staff-occlusion-container");
 
-            for (var i = 0; i < bassKeys.Length; i++)
-            {
-                var buttonName = $"key-{Enum.GetName(typeof(BassKey), bassKeys[i]).ToLower()}";
+            //for (var i = 0; i < bassKeys.Length; i++)
+            //{
+            //    var buttonName = $"key-{Enum.GetName(typeof(BassKey), bassKeys[i]).ToLower()}";
 
-                var button = root.Q<Button>(buttonName);
-                button.clicked += () => { OnNoteOn(bassKeys[i]); };
+            //    var button = root.Q<Button>(buttonName);
+            //    button.clicked += () => { OnNoteOn(bassKeys[i]); };
 
-                keyButtons[i] = button;
-            }
+            //    keyButtons[i] = button;
+            //}
         }
 
-        protected void Start()
+        private IEnumerator ReleaseNote務(LineNote lineNote, float duration)
         {
-            //StartCoroutine(Demo務());
-        }
-
-        private NoteName note現;
-
-        private IEnumerator Demo務()
-        {
-            var noteNames = (NoteName[])Enum.GetValues(typeof(NoteName));
-
-            while (true)
-            {
-                note現 = noteNames[Random.Range(1, noteNames.Length)];
-
-                var lineNote = NoteNameToLineNote(note現);
-                var accidental = NoteNameToAccidental(note現);
-
-                flat.style.display = accidental == Accidental.Flat ? DisplayStyle.Flex : DisplayStyle.None;
-                sharp.style.display = accidental == Accidental.Sharp ? DisplayStyle.Flex : DisplayStyle.None;
-
-                UpdateLedger(lineNote);
-
-                releaseNote務 = StartCoroutine(ReleaseNote務(lineNote));
-
-                yield return new WaitUntil(() => releaseNote務 == null);
-            }
-        }
-
-        private IEnumerator ReleaseNote務(LineNote lineNote)
-        {
-            var difference = offsetXMax;
+            var difference = translateXMax;
 
             var time始 = Time.time;
             var time的 = time始 + duration;
@@ -139,11 +125,9 @@ namespace spellpotion.midiTutor.Screen
                 var time = Time.time - time始;
                 var progress = Mathf.Clamp01(time / duration);
 
-                var offsetX = new Length(offsetXMax - progress * difference, LengthUnit.Percent);
-                var easeOut = Utils.EaseOut(0, 1f, progress * 4f);
+                var offsetX = new Length(translateXMax - progress * difference, LengthUnit.Percent);
 
                 note.style.translate = new Translate(offsetX, 0f, 0f);
-                note.style.opacity = easeOut;
 
                 yield return null;
             }
@@ -153,45 +137,40 @@ namespace spellpotion.midiTutor.Screen
             releaseNote務 = null;
         }
 
-        private static readonly Dictionary<LineNote, (Length? offset1, Length? offset2)> LedgerOffset = new()
+        private IEnumerator Pulse務(bool value)
         {
-            [LineNote.F4] = (Offset(300f), Offset(900f)),
-            [LineNote.E4] = (Offset(0f), Offset(600f)),
-            [LineNote.D4] = (Offset(300f), null),
-            [LineNote.C4] = (Offset(0f), null),
+            var time始 = Time.time;
+            var time中 = time始 + durationPulseHalf;
+            var time的 = time始 + durationPulse;
 
-            [LineNote.E2] = (Offset(0f), null),
-            [LineNote.D2] = (Offset(-300f), null),
-            [LineNote.C2] = (Offset(0f), Offset(-600f)),
-            [LineNote.B1] = (Offset(-300f), Offset(-900f)),
-        };
+            var color原 = new Color(.6f, .6f, .6f, 1f); // not possible to get
+            var color的 = value ? Color.green : Color.red;
 
-        private static Length Offset(float value) => new(value, LengthUnit.Percent);
-
-        private void UpdateLedger(LineNote lineNote)
-        {
-            if ((lineNote > LineNote.E2) && (lineNote < LineNote.C4))
+            while (Time.time < time中)
             {
-                ledger1.style.display = DisplayStyle.None;
-                ledger2.style.display = DisplayStyle.None;
-                return;
+                var time = Time.time - time始;
+                var progress = Mathf.Clamp01(time / durationPulseHalf);
+
+                greyZone.style.backgroundColor = Utils.Lerp(color原, color的, progress);
+
+                yield return null;
             }
 
-            var ledgerOffset = LedgerOffset[lineNote];
+            greyZone.style.backgroundColor = color的;
 
-            if (ledgerOffset.offset1.HasValue)
+            while (Time.time < time的)
             {
-                ledger1.style.display = DisplayStyle.Flex;
-                ledger1.style.translate = new Translate(0, ledgerOffset.offset1.Value);
-            }
-            else ledger1.style.display = DisplayStyle.None;
+                var time = Time.time - time中;
+                var progress = Mathf.Clamp01(time / durationPulseHalf);
 
-            if (ledgerOffset.offset2.HasValue)
-            {
-                ledger2.style.display = DisplayStyle.Flex;
-                ledger2.style.translate = new Translate(0, ledgerOffset.offset2.Value);
+                greyZone.style.backgroundColor = Utils.Lerp(color的, color原, progress);
+
+                yield return null;
             }
-            else ledger2.style.display = DisplayStyle.None;
+
+            greyZone.style.backgroundColor = color原;
+
+            pulse務 = null;
         }
 
         private static LineNote MidiNoteToLineNote(int midiNote) => midiNote switch
@@ -218,7 +197,7 @@ namespace spellpotion.midiTutor.Screen
             _ => LineNote.Unknown
         };
 
-        private static LineNote NoteNameToLineNote(NoteName noteName) => noteName switch
+        private static LineNote NoteNameToLineNoteBass(NoteName noteName) => noteName switch
         {
             NoteName.BF1 => LineNote.B1,
             NoteName.B1 => LineNote.B1,
@@ -268,6 +247,11 @@ namespace spellpotion.midiTutor.Screen
             _ => LineNote.Unknown
         };
 
+        private static LineNote NoteNameToLineNoteTreble(NoteName noteName) => noteName switch
+        {
+            _ => LineNote.Unknown
+        };
+
         private static Accidental NoteNameToAccidental(NoteName noteName) => noteName switch
         {
             NoteName.BF1 => Accidental.Flat,
@@ -299,6 +283,20 @@ namespace spellpotion.midiTutor.Screen
             _ => Accidental.None
         };
 
+        private static (Length? offset1, Length? offset2) LineNoteToLedgerOffset(LineNote lineNote) =>  lineNote switch
+        {
+            LineNote.F4 => (Percent(300f), Percent(900f)),
+            LineNote.E4 => (Percent(0f), Percent(600f)),
+            LineNote.D4 => (Percent(300f), null),
+            LineNote.C4 => (Percent(0f), null),
+
+            LineNote.E2 => (Percent(0f), null),
+            LineNote.D2 => (Percent(-300f), null),
+            LineNote.C2 => (Percent(0f), Percent(-600f)),
+            LineNote.B1 => (Percent(-300f), Percent(-900f)),
+            _ => (null, null)
+        };
+
         private static float LineNoteToTopOffset(LineNote lineNote) => lineNote switch
         {
             LineNote.F4 => 0,
@@ -321,18 +319,6 @@ namespace spellpotion.midiTutor.Screen
             LineNote.C2 => 85,
             LineNote.B1 => 90,
             _ => -1
-        };
-
-        private static readonly List<string> ButtonNames = new()
-        {
-            "key-b1",
-            "key-a1b1",
-            "key-c2", "key-d2", "key-e2", "key-f2", "key-g2", "key-a2", "key-b2",
-             "key-c2d2", "key-d2e2", "key-f2g2", "key-g2a2", "key-a2b2",
-            "key-c3", "key-d3", "key-e3", "key-f3", "key-g3", "key-a3", "key-b3",
-            "key-c3d3", "key-d3e3", "key-f3g3", "key-g3a3", "key-a3b3",
-            "key-c4", "key-d4", "key-e4", "key-f4",
-            "key-c4d4", "key-d4e4", "key-f4g4",
         };
     }
 }
