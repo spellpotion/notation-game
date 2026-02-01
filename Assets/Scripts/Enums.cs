@@ -72,6 +72,36 @@ namespace spellpotion.midiTutor
         E4,
         F4,
         FS4,
+        GF4,
+        G4,
+        GS4,
+        AF4,
+        A4,
+        AS4,
+        BF4,
+        B4,
+        C5,
+        CS5,
+        DF5,
+        D5,
+        DS5,
+        EF5,
+        E5,
+        F5,
+        FS5,
+        GF5,
+        G5,
+        GS5,
+        AF5,
+        A5,
+        AS5,
+        BF5,
+        B5,
+        C6,
+        CS6,
+        DF6,
+        D6,
+        DS6,
     }
 
     public enum KeyName
@@ -110,6 +140,28 @@ namespace spellpotion.midiTutor
         E4,
         F4,
         F4G4,
+        G4,
+        G4A4,
+        A4,
+        A4B4,
+        B4,
+        C5,
+        C5D5,
+        D5,
+        D5E5,
+        E5,
+        F5,
+        F5G5,
+        G5,
+        G5A5,
+        A5,
+        A5B5,
+        B5,
+        C6,
+        C6D6,
+        D6,
+        D6E6,
+        E6,
     }
 
     public enum Accidental
@@ -120,10 +172,12 @@ namespace spellpotion.midiTutor
         Sharp,
     }
 
-    public enum NotationType
+    public enum NotationRange
     {
         None,
         Bass,
         Treble,
+        Alto,
+        Tenor,
     }
 }

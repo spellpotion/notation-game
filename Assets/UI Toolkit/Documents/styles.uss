@@ -38,6 +38,11 @@
     background-color: rgb(245, 245, 245);
 }
 
+.middle-C {
+    font-size: 14px;
+    -unity-font-style: normal;
+}
+
 .black-key {
     width: 30px;
     background-color: rgb(51, 51, 51);

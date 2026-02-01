@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 191a6a82286a0b04caebf64c4ca1ae70, type: 3}
-  m_Name: GameNotation
+  m_Name: NotationGame
   m_EditorClassIdentifier: Assembly-CSharp::spellpotion.midiTutor.Manager.Config.GameNotation
-  NotationType: 1
+  NotationRange: 4

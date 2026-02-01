@@ -10,11 +10,8 @@ namespace spellpotion.midiTutor.Screen
     public class Notation : 抽象Screen
     {
         private const float translateXMax = 1450f;
-        private const float durationPulse = .6f;
-        private const float durationPulseHalf = .3f;
-
-        private const int keyOffsetBass = 1;
-        private const int keyOffsetTreble = 0; // TODO
+        private const float durationPulse = .4f;
+        private const float durationPulseHalf = .1f;
 
         private VisualElement root;
         private VisualElement note;
@@ -24,21 +21,23 @@ namespace spellpotion.midiTutor.Screen
         private VisualElement sharp;
         private VisualElement greyZone;
 
-        private readonly Button[] keys = new Button[33];
+        private Button[] keys;
 
         private Coroutine releaseNote務;
         private Coroutine pulse務;
 
+        private NotationRange Range => NotationGame.NotationRange;
+
         protected override void OnEnable()
         {
-            GameNotation.OnQuery.AddListener(OnQuery);
-            GameNotation.OnAnswer.AddListener(OnAnswer);
+            NotationGame.OnQuery.AddListener(OnQuery);
+            NotationGame.OnAnswer.AddListener(OnAnswer);
         }
 
         protected void OnDisable()
         {
-            GameNotation.OnAnswer.RemoveListener(OnAnswer);
-            GameNotation.OnQuery.RemoveListener(OnQuery);
+            NotationGame.OnAnswer.RemoveListener(OnAnswer);
+            NotationGame.OnQuery.RemoveListener(OnQuery);
         }
 
         private void OnQuery((NoteName noteName, float duration) query)
@@ -67,10 +66,12 @@ namespace spellpotion.midiTutor.Screen
             SetNull(ref releaseNote務);
             releaseNote務 = StartCoroutine(ReleaseNote務(lineNote, query.duration));
 
-            LineNote GetLineNote() => GameNotation.NotationType switch
+            LineNote GetLineNote() => NotationGame.NotationRange switch
             {
-                NotationType.Bass => NoteNameToLineNoteBass(query.noteName),
-                NotationType.Treble => NoteNameToLineNoteTreble(query.noteName),
+                NotationRange.Bass => NoteNameToLineNoteBass(query.noteName),
+                NotationRange.Treble => NoteNameToLineNoteTreble(query.noteName),
+                NotationRange.Alto => NoteNameToLineNoteAlto(query.noteName),
+                NotationRange.Tenor => NoteNameToLineNoteTenor(query.noteName),
                 _ => LineNote.Unknown
             };
         }
@@ -106,23 +107,72 @@ namespace spellpotion.midiTutor.Screen
 
         protected void Start()
         {
-            var keyOffset = GameNotation.NotationType == NotationType.Treble ?
-                keyOffsetTreble : keyOffsetBass;
-            var keyNames = (KeyName[])Enum.GetValues(typeof(KeyName));
+            var keyboardBass = root.Q<VisualElement>("keyboard-bass");
+            keyboardBass.style.display = Range == NotationRange.Bass ?
+                DisplayStyle.Flex : DisplayStyle.None;
+
+            var keyboardTreble = root.Q<VisualElement>("keyboard-treble");
+            keyboardTreble.style.display = Range == NotationRange.Treble ?
+                DisplayStyle.Flex : DisplayStyle.None;
+
+            var keyboardAlto = root.Q<VisualElement>("keyboard-alto");
+            keyboardAlto.style.display = Range == NotationRange.Alto ?
+                DisplayStyle.Flex : DisplayStyle.None;
+
+            var keyboardTenor = root.Q<VisualElement>("keyboard-tenor");
+            keyboardTenor.style.display = Range == NotationRange.Tenor ?
+                DisplayStyle.Flex : DisplayStyle.None;
+
+            var clefF = root.Q<VisualElement>("f-clef");
+            clefF.style.display = Range == NotationRange.Bass ?
+                DisplayStyle.Flex : DisplayStyle.None;
+
+            var clefG = root.Q<VisualElement>("g-clef");
+            clefG.style.display = Range == NotationRange.Treble ?
+                DisplayStyle.Flex : DisplayStyle.None;
+
+            var clefA = root.Q<VisualElement>("c-clef-alto");
+            clefA.style.display = Range == NotationRange.Alto ?
+                DisplayStyle.Flex : DisplayStyle.None;
+
+            var clefT = root.Q<VisualElement>("c-clef-tenor");
+            clefT.style.display = Range == NotationRange.Tenor ?
+                DisplayStyle.Flex : DisplayStyle.None;
+
+            InitializeKeyboard();
+        }
+
+        private void InitializeKeyboard()
+        {
+            var keyOffset = GetKeyOffset();
+            var keyNamesAll = (KeyName[])Enum.GetValues(typeof(KeyName));
+            var rangeName = Enum.GetName(typeof(NotationRange), Range).ToLower();
+
+            keys = new Button[NotationRangeToButtonCount(Range)];
 
             for (var i = 0; i < keys.Length; i++)
             {
-                var buttonName = $"key-{i}";
+                var buttonName = $"key-{rangeName}-{i}";
                 var index = keyOffset + i;
 
                 var button = root.Q<Button>(buttonName);
+
                 button.clicked += () =>
                 {
-                    GameNotation.Answer(keyNames[index]);
+                    NotationGame.Answer(keyNamesAll[index]);
                 };
 
                 keys[i] = button;
             }
+
+            static int GetKeyOffset() => NotationGame.NotationRange switch
+            { 
+                NotationRange.Bass => 1,
+                NotationRange.Treble => 21,
+                NotationRange.Alto => 11,
+                NotationRange.Tenor => 8,
+                _ => 0
+            };
         }
 
         private IEnumerator ReleaseNote務(LineNote lineNote, float duration)
@@ -157,6 +207,8 @@ namespace spellpotion.midiTutor.Screen
             var time始 = Time.time;
             var time中 = time始 + durationPulseHalf;
             var time的 = time始 + durationPulse;
+            
+            var durationPulseHalf2 = durationPulse - durationPulseHalf;
 
             var color原 = new Color(.6f, .6f, .6f, 1f); // not possible to get
             var color的 = value ? Color.green : Color.red;
@@ -176,7 +228,7 @@ namespace spellpotion.midiTutor.Screen
             while (Time.time < time的)
             {
                 var time = Time.time - time中;
-                var progress = Mathf.Clamp01(time / durationPulseHalf);
+                var progress = Mathf.Clamp01(time / durationPulseHalf2);
 
                 greyZone.style.backgroundColor = Utils.Lerp(color的, color原, progress);
 
@@ -264,6 +316,158 @@ namespace spellpotion.midiTutor.Screen
 
         private static LineNote NoteNameToLineNoteTreble(NoteName noteName) => noteName switch
         {
+            NoteName.GF3 => LineNote.B1,
+            NoteName.G3 => LineNote.B1,
+            NoteName.GS3 => LineNote.B1,
+            NoteName.AF3 => LineNote.C2,
+            NoteName.A3 => LineNote.C2,
+            NoteName.AS3 => LineNote.C2,
+            NoteName.BF3 => LineNote.D2,
+            NoteName.B3 => LineNote.D2,
+            NoteName.C4 => LineNote.E2,
+            NoteName.CS4 => LineNote.E2,
+            NoteName.DF4 => LineNote.F2,
+            NoteName.D4 => LineNote.F2,
+            NoteName.DS4 => LineNote.F2,
+            NoteName.EF4 => LineNote.G2,
+            NoteName.E4 => LineNote.G2,
+            NoteName.F4 => LineNote.A2,
+            NoteName.FS4 => LineNote.A2,
+            NoteName.GF4 => LineNote.B2,
+            NoteName.G4 => LineNote.B2,
+            NoteName.GS4 => LineNote.B2,
+            NoteName.AF4 => LineNote.C3,
+            NoteName.A4 => LineNote.C3,
+            NoteName.AS4 => LineNote.C3,
+            NoteName.BF4 => LineNote.D3,
+            NoteName.B4 => LineNote.D3,
+            NoteName.C5 => LineNote.E3,
+            NoteName.CS5 => LineNote.E3,
+            NoteName.DF5 => LineNote.F3,
+            NoteName.D5 => LineNote.F3,
+            NoteName.DS5 => LineNote.F3,
+            NoteName.EF5 => LineNote.G3,
+            NoteName.E5 => LineNote.G3,
+            NoteName.F5 => LineNote.A3,
+            NoteName.FS5 => LineNote.A3,
+            NoteName.GF5 => LineNote.B3,
+            NoteName.G5 => LineNote.B3,
+            NoteName.GS5 => LineNote.B3,
+            NoteName.AF5 => LineNote.C4,
+            NoteName.A5 => LineNote.C4,
+            NoteName.AS5 => LineNote.C4,
+            NoteName.BF5 => LineNote.D4,
+            NoteName.B5 => LineNote.D4,
+            NoteName.C6 => LineNote.E4,
+            NoteName.CS6 => LineNote.E4,
+            NoteName.DF6 => LineNote.F4,
+            NoteName.D6 => LineNote.F4,
+            NoteName.DS6 => LineNote.F4,
+
+            _ => LineNote.Unknown
+        };
+
+        private static LineNote NoteNameToLineNoteAlto(NoteName noteName) => noteName switch
+        {
+            NoteName.AF2 => LineNote.B1,
+            NoteName.A2 => LineNote.B1,
+            NoteName.AS2 => LineNote.B1,
+            NoteName.BF2 => LineNote.C2,
+            NoteName.B2 => LineNote.C2,
+            NoteName.C3 => LineNote.D2,
+            NoteName.CS3 => LineNote.D2,
+            NoteName.DF3 => LineNote.E2,
+            NoteName.D3 => LineNote.E2,
+            NoteName.DS3 => LineNote.E2,
+            NoteName.EF3 => LineNote.F2,
+            NoteName.E3 => LineNote.F2,
+            NoteName.F3 => LineNote.G2,
+            NoteName.FS3 => LineNote.G2,
+            NoteName.GF3 => LineNote.A2,
+            NoteName.G3 => LineNote.A2,
+            NoteName.GS3 => LineNote.A2,
+            NoteName.AF3 => LineNote.B2,
+            NoteName.A3 => LineNote.B2,
+            NoteName.AS3 => LineNote.B2,
+            NoteName.BF3 => LineNote.C3,
+            NoteName.B3 => LineNote.C3,
+            NoteName.C4 => LineNote.D3,
+            NoteName.CS4 => LineNote.D3,
+            NoteName.DF4 => LineNote.E3,
+            NoteName.D4 => LineNote.E3,
+            NoteName.DS4 => LineNote.E3,
+            NoteName.EF4 => LineNote.F3,
+            NoteName.E4 => LineNote.F3,
+            NoteName.F4 => LineNote.G3,
+            NoteName.FS4 => LineNote.G3,
+            NoteName.GF4 => LineNote.A3,
+            NoteName.G4 => LineNote.A3,
+            NoteName.GS4 => LineNote.A3,
+            NoteName.AF4 => LineNote.B3,
+            NoteName.A4 => LineNote.B3,
+            NoteName.AS4 => LineNote.B3,
+            NoteName.BF4 => LineNote.C4,
+            NoteName.B4 => LineNote.C4,
+            NoteName.C5 => LineNote.D4,
+            NoteName.CS5 => LineNote.D4,
+            NoteName.DF5 => LineNote.E4,
+            NoteName.D5 => LineNote.E4,
+            NoteName.DS5 => LineNote.E4,
+            NoteName.EF5 => LineNote.F4,
+            NoteName.E5 => LineNote.F4,
+            NoteName.F5 => LineNote.F4,
+            NoteName.FS5 => LineNote.F4,
+            _ => LineNote.Unknown
+        };
+
+        private static LineNote NoteNameToLineNoteTenor(NoteName noteName) => noteName switch
+        {
+            NoteName.F2 => LineNote.B1,
+            NoteName.FS2 => LineNote.B1,
+            NoteName.GF2 => LineNote.C2,
+            NoteName.G2 => LineNote.C2,
+            NoteName.GS2 => LineNote.C2,
+            NoteName.AF2 => LineNote.D2,
+            NoteName.A2 => LineNote.D2,
+            NoteName.AS2 => LineNote.D2,
+            NoteName.BF2 => LineNote.E2,
+            NoteName.B2 => LineNote.E2,
+            NoteName.C3 => LineNote.F2,
+            NoteName.CS3 => LineNote.F2,
+            NoteName.DF3 => LineNote.G2,
+            NoteName.D3 => LineNote.G2,
+            NoteName.DS3 => LineNote.G2,
+            NoteName.EF3 => LineNote.A2,
+            NoteName.E3 => LineNote.A2,
+            NoteName.F3 => LineNote.B2,
+            NoteName.FS3 => LineNote.B2,
+            NoteName.GF3 => LineNote.C3,
+            NoteName.G3 => LineNote.C3,
+            NoteName.GS3 => LineNote.C3,
+            NoteName.AF3 => LineNote.D3,
+            NoteName.A3 => LineNote.D3,
+            NoteName.AS3 => LineNote.D3,
+            NoteName.BF3 => LineNote.E3,
+            NoteName.B3 => LineNote.E3,
+            NoteName.C4 => LineNote.F3,
+            NoteName.CS4 => LineNote.F3,
+            NoteName.DF4 => LineNote.G3,
+            NoteName.D4 => LineNote.G3,
+            NoteName.DS4 => LineNote.G3,
+            NoteName.EF4 => LineNote.A3,
+            NoteName.E4 => LineNote.A3,
+            NoteName.F4 => LineNote.B3,
+            NoteName.FS4 => LineNote.B3,
+            NoteName.GF4 => LineNote.C4,
+            NoteName.G4 => LineNote.C4,
+            NoteName.GS4 => LineNote.C4,
+            NoteName.AF4 => LineNote.D4,
+            NoteName.A4 => LineNote.D4,
+            NoteName.AS4 => LineNote.D4,
+            NoteName.BF4 => LineNote.E4,
+            NoteName.B4 => LineNote.E4,
+            NoteName.C5 => LineNote.F4,
+            NoteName.CS5 => LineNote.F4,
             _ => LineNote.Unknown
         };
 
@@ -295,6 +499,24 @@ namespace spellpotion.midiTutor.Screen
             NoteName.DS4 => Accidental.Sharp,
             NoteName.EF4 => Accidental.Flat,
             NoteName.FS4 => Accidental.Sharp,
+            NoteName.GF4 => Accidental.Flat,
+            NoteName.GS4 => Accidental.Sharp,
+            NoteName.AF4 => Accidental.Flat,
+            NoteName.AS4 => Accidental.Sharp,
+            NoteName.BF4 => Accidental.Flat,
+            NoteName.CS5 => Accidental.Sharp,
+            NoteName.DF5 => Accidental.Flat,
+            NoteName.DS5 => Accidental.Sharp,
+            NoteName.EF5 => Accidental.Flat,
+            NoteName.FS5 => Accidental.Sharp,
+            NoteName.GF5 => Accidental.Flat,
+            NoteName.GS5 => Accidental.Sharp,
+            NoteName.AF5 => Accidental.Flat,
+            NoteName.AS5 => Accidental.Sharp,
+            NoteName.BF5 => Accidental.Flat,
+            NoteName.CS6 => Accidental.Sharp,
+            NoteName.DF6 => Accidental.Flat,
+            NoteName.DS6 => Accidental.Sharp,
             _ => Accidental.None
         };
 
@@ -310,6 +532,15 @@ namespace spellpotion.midiTutor.Screen
             LineNote.C2 => (Percent(0f), Percent(-600f)),
             LineNote.B1 => (Percent(-300f), Percent(-900f)),
             _ => (null, null)
+        };
+
+        private static int NotationRangeToButtonCount(NotationRange range) => range switch
+        {
+            NotationRange.Bass => 33,
+            NotationRange.Treble => 34,
+            NotationRange.Alto => 33,
+            NotationRange.Tenor => 33,
+            _ => 0,
         };
 
         private static float LineNoteToTopOffset(LineNote lineNote) => lineNote switch
