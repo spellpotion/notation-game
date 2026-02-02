@@ -161,7 +161,6 @@ namespace spellpotion.midiTutor
         C6D6,
         D6,
         D6E6,
-        E6,
     }
 
     public enum Accidental

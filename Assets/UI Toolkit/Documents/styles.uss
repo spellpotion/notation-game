@@ -86,3 +86,12 @@
     width: 9px;
     flex-grow: 1;
 }
+
+.query {
+    font-size: 64px;
+    -unity-font-style: normal;
+    width: 50%;
+    height: 100%;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#LegacyRuntime");
+}

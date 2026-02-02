@@ -6,9 +6,9 @@
                 <ui:VisualElement name="grey-zone" style="flex-grow: 1; position: absolute; height: 100%; width: 24%; background-color: rgb(204, 204, 204); left: 0%; display: flex; border-top-left-radius: 10px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 10px;"/>
                 <ui:VisualElement name="staff" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Vector%20Images/Staff.svg?fileID=7388822144124034973&amp;guid=e5f55661771458649825e054b02960e8&amp;type=3#Staff&quot;); background-size: 100% 41.6666%; -unity-background-image-tint-color: rgb(77, 77, 77);">
                     <ui:VisualElement name="f-clef" style="flex-grow: 1; position: absolute; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Vector%20Images/FClef.svg?fileID=7388822144124034973&amp;guid=364b9403f02759e4290186ed7005510e&amp;type=3#FClef&quot;); height: 32%; aspect-ratio: 0.9; display: none; top: 30%; left: 20px; -unity-background-image-tint-color: rgb(26, 26, 26);"/>
-                    <ui:VisualElement name="g-clef" style="flex-grow: 1; position: absolute; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Vector%20Images/GClef.svg?fileID=7388822144124034973&amp;guid=32556414c03ab8c458deab2f4be5d924&amp;type=3#GClef&quot;); height: 70%; aspect-ratio: 0.372549; display: none; top: 17%; left: 20px; -unity-background-image-tint-color: rgb(26, 26, 26);"/>
+                    <ui:VisualElement name="g-clef" style="flex-grow: 1; position: absolute; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Vector%20Images/GClef.svg?fileID=7388822144124034973&amp;guid=32556414c03ab8c458deab2f4be5d924&amp;type=3#GClef&quot;); height: 68%; aspect-ratio: 0.372549; display: flex; top: 18.4%; left: 20px; -unity-background-image-tint-color: rgb(26, 26, 26);"/>
                     <ui:VisualElement name="c-clef-alto" style="flex-grow: 1; position: absolute; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Vector%20Images/CClef.svg?fileID=7388822144124034973&amp;guid=d57059849ceec08448b279610d68a72e&amp;type=3#CClef&quot;); height: 40%; aspect-ratio: 0.664; display: none; top: 30%; left: 20px; -unity-background-image-tint-color: rgb(26, 26, 26);"/>
-                    <ui:VisualElement name="c-clef-tenor" style="flex-grow: 1; position: absolute; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Vector%20Images/CClef.svg?fileID=7388822144124034973&amp;guid=d57059849ceec08448b279610d68a72e&amp;type=3#CClef&quot;); height: 40%; aspect-ratio: 0.664; display: flex; top: 20%; left: 20px; -unity-background-image-tint-color: rgb(26, 26, 26);"/>
+                    <ui:VisualElement name="c-clef-tenor" style="flex-grow: 1; position: absolute; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Vector%20Images/CClef.svg?fileID=7388822144124034973&amp;guid=d57059849ceec08448b279610d68a72e&amp;type=3#CClef&quot;); height: 40%; aspect-ratio: 0.664; display: none; top: 20%; left: 20px; -unity-background-image-tint-color: rgb(26, 26, 26);"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="note" style="flex-grow: 1; position: absolute; height: 10%; aspect-ratio: 1.64; translate: 0% 0%; top: 30%; left: 24%; opacity: 1;">
                     <ui:VisualElement name="flat" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Vector%20Images/Flat.svg?fileID=7388822144124034973&amp;guid=fd28674804f773e449bf54522c191182&amp;type=3#Flat&quot;); height: 260%; aspect-ratio: 0.3; position: absolute; top: -140%; left: -60%; display: flex; -unity-background-image-tint-color: rgb(26, 26, 26);"/>
@@ -18,6 +18,10 @@
                     <ui:VisualElement name="note-belly" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Vector%20Images/WholeNote.svg?fileID=7388822144124034973&amp;guid=42b5426d9520c1c49bfef47803ff4c2c&amp;type=3#WholeNote&quot;); -unity-background-image-tint-color: rgb(26, 26, 26);"/>
                 </ui:VisualElement>
             </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="query" style="flex-grow: 1; aspect-ratio: 2; width: 30px; align-self: center; flex-direction: row; align-items: center; justify-content: space-around;">
+            <ui:Label text="D&#9839;" name="answer-label" class="query" style="background-color: rgb(176, 224, 230);"/>
+            <ui:Label text="E&#9837;" name="result-label" class="query" style="display: flex; background-color: rgb(0, 255, 127);"/>
         </ui:VisualElement>
         <ui:VisualElement name="keyboard-bass" style="align-self: center; aspect-ratio: 8; width: 90%; display: flex;">
             <ui:VisualElement name="white-keys" style="flex-grow: 1; flex-direction: row; padding-top: 0%; padding-right: 0.8%; padding-bottom: 0%; padding-left: 0.8%;">
@@ -62,7 +66,7 @@
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>
                 <ui:Button text="" name="key-bass-22" enabled="true" class="black-key"/>
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>
-                <ui:Button text="" name="key-bass-24" class="black-key"/>
+                <ui:Button text="" name="key-bass-24" class="black-key" style="-unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgb(51, 51, 51);"/>
                 <ui:VisualElement name="space-L" picking-mode="Ignore" class="key-space-L" style="flex-grow: 1;"/>
                 <ui:Button text="" name="key-bass-27" class="black-key"/>
                 <ui:VisualElement name="space-S" picking-mode="Ignore" class="key-space-S" style="flex-grow: 1;"/>

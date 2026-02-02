@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 191a6a82286a0b04caebf64c4ca1ae70, type: 3}
   m_Name: NotationGame
   m_EditorClassIdentifier: Assembly-CSharp::spellpotion.midiTutor.Manager.Config.GameNotation
-  NotationRange: 4
+  NotationRange: 1

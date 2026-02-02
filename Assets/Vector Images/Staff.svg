@@ -4,10 +4,11 @@
    width="240"
    height="25"
    id="svg4"
-   sodipodi:docname="Staff.svg"
+   sodipodi:docname="Staff240.svg"
    inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
@@ -21,29 +22,56 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="5.6568543"
-     inkscape:cx="164.5791"
-     inkscape:cy="23.688077"
-     inkscape:window-width="3252"
-     inkscape:window-height="1557"
-     inkscape:window-x="566"
-     inkscape:window-y="404"
-     inkscape:window-maximized="0"
+     inkscape:zoom="15.366667"
+     inkscape:cx="119.96746"
+     inkscape:cy="12.494577"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg4" />
+  <line
+     id="rl"
+     x2="240"
+     y2="0.5"
+     x1="0"
+     y1="0.5"
+     style="stroke:#000000" />
+  <use
+     y="6"
+     xlink:href="#rl"
+     id="use1" />
+  <use
+     y="12"
+     xlink:href="#rl"
+     id="use2" />
+  <use
+     y="18"
+     xlink:href="#rl"
+     id="use3" />
+  <use
+     y="24"
+     xlink:href="#rl"
+     id="use4" />
   <path
-     style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;enable-background:accumulate;stop-color:#000000"
-     d="M 1.5,0.5 H 240"
+     style="fill:#ffffff;stroke-width:0.0650759"
+     d="M 0.03253796,0.48806941 V 0.03253796 H 120 239.96746 V 0.48806941 0.94360087 H 120 0.03253796 Z"
      id="path4" />
   <path
-     id="path5"
-     style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;enable-background:accumulate;stop-color:#000000;fill:#ffffff;fill-opacity:1"
-     d="M 0 0 L 0 25 L 1.5 25 L 1.5 24.996094 L 240 24.996094 L 240 24 L 1.5 24 L 1.5 18.998047 L 240 18.998047 L 240 18.001953 L 1.5 18.001953 L 1.5 12.998047 L 240 12.998047 L 240 12.001953 L 1.5 12.001953 L 1.5 7 L 240 7 L 240 6.0039062 L 1.5 6.0039062 L 1.5 0.99804688 L 240 0.99804688 L 240 0.001953125 L 1.5 0.001953125 L 1.5 0 L 0 0 z " />
+     style="fill:#ffffff;stroke-width:0.0650759"
+     d="M 0.03253796,6.5075922 V 6.0195228 H 120 239.96746 V 6.5075922 6.9956616 H 120 0.03253796 Z"
+     id="path5" />
   <path
-     style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;enable-background:accumulate;stop-color:#000000"
-     d="M 1.5,12.5 H 240"
+     style="fill:#ffffff;stroke-width:0.0650759"
+     d="M 0.03253796,12.494577 V 12.006508 H 120 239.96746 v 0.488069 0.488069 H 120 0.03253796 Z"
+     id="path6" />
+  <path
+     style="fill:#ffffff;stroke-width:0.0650759"
+     d="M 0.03253796,18.5141 V 18.058568 H 120 239.96746 V 18.5141 18.969631 H 120 0.03253796 Z"
+     id="path7" />
+  <path
+     style="fill:#ffffff;stroke-width:0.0650759"
+     d="M 0.03253796,24.501085 V 24.045553 H 120 239.96746 v 0.455532 0.455531 H 120 0.03253796 Z"
      id="path8" />
-  <path
-     style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;enable-background:accumulate;stop-color:#000000"
-     d="M 1.5,18.5 H 240"
-     id="path10" />
 </svg>

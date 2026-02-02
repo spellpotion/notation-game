@@ -1,7 +1,9 @@
+using spellpotion.midiTutor.Data;
 using spellpotion.midiTutor.Manager;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 namespace spellpotion.midiTutor.Screen
@@ -13,6 +15,10 @@ namespace spellpotion.midiTutor.Screen
         private const float durationPulse = .4f;
         private const float durationPulseHalf = .1f;
 
+        private readonly Color colorQuery = Color.powderBlue;
+        private readonly Color colorAnswerFalse = Color.softRed;
+        private readonly Color colorAnswerTrue = Color.springGreen;
+
         private VisualElement root;
         private VisualElement note;
         private VisualElement flat;
@@ -20,51 +26,62 @@ namespace spellpotion.midiTutor.Screen
         private VisualElement ledger2;
         private VisualElement sharp;
         private VisualElement greyZone;
+        private Label labelAnswer;
+        private Label labelResult;
 
         private Button[] keys;
 
         private Coroutine releaseNote務;
         private Coroutine pulse務;
 
+        private KeyName keyNameQuery;
+        private KeyName keyNameAnswer;
+        private Accidental accidental;
+
         private NotationRange Range => NotationGame.NotationRange;
 
         protected override void OnEnable()
         {
             NotationGame.OnQuery.AddListener(OnQuery);
+            NotationGame.OnResult.AddListener(OnResult);
             NotationGame.OnAnswer.AddListener(OnAnswer);
         }
 
         protected void OnDisable()
         {
             NotationGame.OnAnswer.RemoveListener(OnAnswer);
+            NotationGame.OnResult.RemoveListener(OnResult);
             NotationGame.OnQuery.RemoveListener(OnQuery);
         }
 
         private void OnQuery((NoteName noteName, float duration) query)
         {
             var lineNote = GetLineNote();
-            var accidental = NoteNameToAccidental(query.noteName);
-            var ledgerOffset = LineNoteToLedgerOffset(lineNote);
+            keyNameQuery = Conversion.NoteNameToKeyName(query.noteName);
+            accidental = NoteNameToAccidental(query.noteName);
+            var (offset1, offset2) = LineNoteToLedgerOffset(lineNote);
 
             flat.style.display = accidental == Accidental.Flat ? DisplayStyle.Flex : DisplayStyle.None;
             sharp.style.display = accidental == Accidental.Sharp ? DisplayStyle.Flex : DisplayStyle.None;
 
-            if (ledgerOffset.offset1.HasValue)
+            if (offset1.HasValue)
             {
                 ledger1.style.display = DisplayStyle.Flex;
-                ledger1.style.translate = new Translate(0, ledgerOffset.offset1.Value);
+                ledger1.style.translate = new Translate(0, offset1.Value);
             }
             else ledger1.style.display = DisplayStyle.None;
 
-            if (ledgerOffset.offset2.HasValue)
+            if (offset2.HasValue)
             {
                 ledger2.style.display = DisplayStyle.Flex;
-                ledger2.style.translate = new Translate(0, ledgerOffset.offset2.Value);
+                ledger2.style.translate = new Translate(0, offset2.Value);
             }
             else ledger2.style.display = DisplayStyle.None;
 
             SetNull(ref releaseNote務);
             releaseNote務 = StartCoroutine(ReleaseNote務(lineNote, query.duration));
+
+            keyNameAnswer = KeyName.Unknown;
 
             LineNote GetLineNote() => NotationGame.NotationRange switch
             {
@@ -76,11 +93,67 @@ namespace spellpotion.midiTutor.Screen
             };
         }
 
-        private void OnAnswer(bool value)
+        private void OnResult(bool value)
         {
             SetNull(ref pulse務);
 
             pulse務 = StartCoroutine(Pulse務(value));
+
+            if (value)
+            {
+                labelAnswer.style.backgroundColor = colorAnswerTrue;
+            }
+            else
+            {
+                labelResult.style.display = DisplayStyle.Flex;
+                labelResult.style.backgroundColor = colorQuery;
+
+                labelAnswer.style.backgroundColor = colorAnswerFalse;
+
+                var noteNameQuery = accidental == Accidental.Flat ?
+                    Conversion.KeyNameToNoteNameFlat(keyNameQuery) :
+                    Conversion.KeyNameToNoteNameSharp(keyNameQuery);
+                var noteStringQuery = Conversion.NoteNameToString(noteNameQuery);
+
+                if (keyNameAnswer != KeyName.Unknown && IsSamePitchClass())
+                {
+                    var noteName = accidental == Accidental.Flat ?
+                        Conversion.KeyNameToNoteNameFlat(keyNameAnswer) :
+                        Conversion.KeyNameToNoteNameSharp(keyNameAnswer);
+                    var noteStringAnswer = Conversion.NoteNameToString(noteName);
+
+                    labelResult.text = noteStringQuery;
+                    labelAnswer.text = noteStringAnswer;
+                }
+                else
+                {
+                    labelResult.text = noteStringQuery[..^1];
+                }
+            }
+
+            bool IsSamePitchClass()
+            {
+                int index1 = ((int)keyNameQuery - (int)KeyName.A1B1) % 12;
+                int index2 = ((int)keyNameAnswer - (int)KeyName.A1B1) % 12;
+
+                return index1 == index2;
+            }
+        }
+
+        private void OnAnswer(KeyName keyName)
+        {
+            var noteName = accidental == Accidental.Flat ?
+                Conversion.KeyNameToNoteNameFlat(keyName) :
+                Conversion.KeyNameToNoteNameSharp(keyName);
+            var noteString = Conversion.NoteNameToString(noteName);
+
+            labelResult.style.display = DisplayStyle.None;
+
+            labelAnswer.style.display = DisplayStyle.Flex;
+            labelAnswer.style.backgroundColor = colorQuery;
+            labelAnswer.text = noteString[..^1];
+
+            keyNameAnswer = keyName;
         }
 
         protected void Awake()
@@ -103,6 +176,12 @@ namespace spellpotion.midiTutor.Screen
             ledger2.style.display = DisplayStyle.None;
 
             greyZone = root.Q<VisualElement>("staff-occlusion-container");
+
+            labelAnswer = root.Q<Label>("answer-label");
+            labelAnswer.style.display = DisplayStyle.None;
+
+            labelResult = root.Q<Label>("result-label");
+            labelResult.style.display = DisplayStyle.None;
         }
 
         protected void Start()
@@ -211,7 +290,7 @@ namespace spellpotion.midiTutor.Screen
             var durationPulseHalf2 = durationPulse - durationPulseHalf;
 
             var color原 = new Color(.6f, .6f, .6f, 1f); // not possible to get
-            var color的 = value ? Color.green : Color.red;
+            var color的 = value ? colorAnswerTrue : colorAnswerFalse;
 
             while (Time.time < time中)
             {
