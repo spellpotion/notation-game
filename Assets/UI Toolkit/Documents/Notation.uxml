@@ -1,7 +1,22 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Documents/styles.uss?fileID=7433441132597879392&amp;guid=f282fee335b048548966eb3c5609d99c&amp;type=3#styles"/>
     <ui:VisualElement name="main-container" style="flex-grow: 1; justify-content: flex-start; background-color: rgb(26, 26, 26); align-self: center; width: 1740px; align-items: center;">
-        <ui:VisualElement name="header-container" style="flex-grow: 1; background-color: rgb(0, 0, 0); border-bottom-width: 20px; border-left-color: rgb(26, 26, 26); border-right-color: rgb(26, 26, 26); border-top-color: rgb(26, 26, 26); border-bottom-color: rgb(26, 26, 26);"/>
+        <ui:VisualElement name="header-container" style="flex-grow: 1; background-color: rgb(51, 51, 51); border-bottom-width: 20px; border-left-color: rgb(26, 26, 26); border-right-color: rgb(26, 26, 26); border-top-color: rgb(26, 26, 26); border-bottom-color: rgb(26, 26, 26); width: 100%; flex-direction: row; min-width: 100%; justify-content: space-between;">
+            <ui:VisualElement name="header-left" class="top-side-container" style="padding-top: 1%; padding-bottom: 1%; padding-left: 3.5%;">
+                <ui:VisualElement name="score-container" style="flex-grow: 1; -unity-text-align: middle-left;">
+                    <ui:Label text="88888888" name="score" style="color: rgb(245, 245, 245); font-size: 34px; -unity-font-definition: url(&quot;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#LegacyRuntime&quot;); -unity-font-style: bold;"/>
+                </ui:VisualElement>
+                <ui:Label text="SCORE" name="score-label" class="top-label"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="header-right" class="top-side-container" style="align-items: flex-end; display: none;">
+                <ui:VisualElement name="life-container" style="flex-direction: row-reverse; justify-content: space-between; width: 130px; padding-right: 7px; -unity-font-style: normal;">
+                    <ui:VisualElement name="life-1" class="life" style="background-image: url(&quot;project://database/Assets/Vector%20Images/EightNote.svg?fileID=7388822144124034973&amp;guid=a5ab69287e9d2494195c96e0f0fa6666&amp;type=3#EightNote&quot;); display: flex;"/>
+                    <ui:VisualElement name="life-2" class="life" style="background-image: url(&quot;project://database/Assets/Vector%20Images/EightNote.svg?fileID=7388822144124034973&amp;guid=a5ab69287e9d2494195c96e0f0fa6666&amp;type=3#EightNote&quot;); display: flex;"/>
+                    <ui:VisualElement name="life-3" class="life" style="background-image: url(&quot;project://database/Assets/Vector%20Images/EightNote.svg?fileID=7388822144124034973&amp;guid=a5ab69287e9d2494195c96e0f0fa6666&amp;type=3#EightNote&quot;); display: flex;"/>
+                </ui:VisualElement>
+                <ui:Label text="LIVES" name="life-label" class="top-label" style="-unity-text-align: middle-right;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
         <ui:VisualElement name="staff-occlusion-container" style="flex-grow: 0; overflow: hidden; flex-direction: row; align-self: center; width: 60%; aspect-ratio: 2.35; background-color: rgb(153, 153, 153); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;">
             <ui:VisualElement name="staff-container" style="background-color: rgb(245, 245, 245); aspect-ratio: 3; flex-direction: row; align-self: center; padding-left: 5%; display: flex; height: 80%;">
                 <ui:VisualElement name="grey-zone" style="flex-grow: 1; position: absolute; height: 100%; width: 24%; background-color: rgb(204, 204, 204); left: 0%; display: flex; border-top-left-radius: 10px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 10px;"/>
@@ -20,30 +35,30 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="keyboard-container" style="aspect-ratio: 4; max-width: 100%; background-color: rgb(51, 51, 51); justify-content: space-between; border-top-width: 16px; border-left-color: rgb(26, 26, 26); border-right-color: rgb(26, 26, 26); border-top-color: rgb(26, 26, 26); border-bottom-color: rgb(26, 26, 26); padding-top: 40px; width: 100%; padding-bottom: 20px;">
-            <ui:VisualElement name="note-name-container" style="aspect-ratio: 1.2; align-self: center; flex-direction: row; align-items: center; justify-content: space-around; display: flex; background-color: rgb(112, 128, 144); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; height: 30%; border-left-color: rgb(112, 128, 144); border-right-color: rgb(112, 128, 144); border-top-color: rgb(112, 128, 144); border-bottom-color: rgb(112, 128, 144);">
-                <ui:Label text="D&#9839; " name="note-name-label" class="query" style="display: flex; font-size: 52px;"/>
+        <ui:VisualElement name="keyboard-container" style="aspect-ratio: 4; background-color: rgb(51, 51, 51); justify-content: space-between; border-top-width: 16px; border-left-color: rgb(26, 26, 26); border-right-color: rgb(26, 26, 26); border-top-color: rgb(26, 26, 26); border-bottom-color: rgb(26, 26, 26); padding-top: 40px; width: 100%; padding-bottom: 20px; min-width: 100%;">
+            <ui:VisualElement name="note-name-container" style="aspect-ratio: 1.2; align-self: center; flex-direction: row; align-items: center; justify-content: space-around; display: flex; background-color: rgb(176, 196, 222); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; height: 30%; border-left-color: rgb(112, 128, 144); border-right-color: rgb(112, 128, 144); border-top-color: rgb(112, 128, 144); border-bottom-color: rgb(112, 128, 144);">
+                <ui:Label text="D&#9839; " name="note-name-label" class="query" style="display: flex; font-size: 52px; color: rgb(26, 26, 26);"/>
             </ui:VisualElement>
-            <ui:VisualElement name="keyboard-bass" class="keyboard" style="align-self: center; display: flex;">
+            <ui:VisualElement name="keyboard-bass" class="keyboard" style="align-self: center; display: none;">
                 <ui:VisualElement name="white-keys" style="flex-grow: 1; flex-direction: row; padding-top: 0%; padding-right: 0.8%; padding-bottom: 0%; padding-left: 0.8%;">
                     <ui:Button text="" name="key-bass-1" class="white-key"/>
-                    <ui:Button text="C2" name="key-bass-2" class="white-key"/>
+                    <ui:Button text="" name="key-bass-2" class="white-key"/>
                     <ui:Button text="" name="key-bass-4" class="white-key"/>
                     <ui:Button text="" name="key-bass-6" class="white-key"/>
                     <ui:Button text="" name="key-bass-7" enabled="true" class="white-key"/>
-                    <ui:Button text="G2" name="key-bass-9" class="white-key"/>
+                    <ui:Button text="" name="key-bass-9" class="white-key"/>
                     <ui:Button text="" name="key-bass-11" class="white-key"/>
                     <ui:Button text="" name="key-bass-13" class="white-key"/>
-                    <ui:Button text="" name="key-bass-14" class="white-key"/>
-                    <ui:Button text="D3" name="key-bass-16" class="white-key"/>
+                    <ui:Button text="" name="key-bass-14" class="white-key" style="display: flex;"/>
+                    <ui:Button text="" name="key-bass-16" class="white-key"/>
                     <ui:Button text="" name="key-bass-18" class="white-key"/>
                     <ui:Button text="" name="key-bass-19" class="white-key"/>
                     <ui:Button text="" name="key-bass-21" class="white-key"/>
-                    <ui:Button text="A3" name="key-bass-23" enabled="true" class="white-key"/>
+                    <ui:Button text="" name="key-bass-23" enabled="true" class="white-key"/>
                     <ui:Button text="" name="key-bass-25" class="white-key"/>
-                    <ui:Button text="middle C" name="key-bass-26" class="white-key middle-C"/>
+                    <ui:Button text="C4" name="key-bass-26" class="white-key"/>
                     <ui:Button text="" name="key-bass-28" class="white-key"/>
-                    <ui:Button text="E4" name="key-bass-30" class="white-key"/>
+                    <ui:Button text="" name="key-bass-30" class="white-key"/>
                     <ui:Button text="" name="key-bass-31" class="white-key"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="black-keys" picking-mode="Ignore" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 40%; flex-direction: row; display: flex;">
@@ -76,26 +91,26 @@
                     <ui:Button text="" name="key-bass-32" class="black-key"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="keyboard-treble" class="keyboard" style="align-self: center; aspect-ratio: 8; display: none;">
+            <ui:VisualElement name="keyboard-treble" class="keyboard" style="align-self: center; aspect-ratio: 8; display: flex;">
                 <ui:VisualElement name="white-keys" style="flex-grow: 1; flex-direction: row; padding-top: 0%; padding-right: 2.1%; padding-bottom: 0%; padding-left: 2.7%;">
                     <ui:Button text="" name="key-treble-1" class="white-key"/>
-                    <ui:Button text="A3" name="key-treble-3" class="white-key"/>
+                    <ui:Button text="" name="key-treble-3" class="white-key"/>
                     <ui:Button text="" name="key-treble-5" class="white-key"/>
-                    <ui:Button text="middle C" name="key-treble-6" class="white-key middle-C"/>
+                    <ui:Button text="C4" name="key-treble-6" class="white-key"/>
                     <ui:Button text="" name="key-treble-8" enabled="true" class="white-key"/>
-                    <ui:Button text="E4" name="key-treble-10" class="white-key"/>
+                    <ui:Button text="" name="key-treble-10" class="white-key"/>
                     <ui:Button text="" name="key-treble-11" class="white-key"/>
                     <ui:Button text="" name="key-treble-13" class="white-key"/>
                     <ui:Button text="" name="key-treble-15" class="white-key"/>
-                    <ui:Button text="B4" name="key-treble-17" class="white-key"/>
+                    <ui:Button text="" name="key-treble-17" class="white-key"/>
                     <ui:Button text="" name="key-treble-18" class="white-key"/>
                     <ui:Button text="" name="key-treble-20" class="white-key"/>
                     <ui:Button text="" name="key-treble-22" class="white-key"/>
-                    <ui:Button text="F5" name="key-treble-23" enabled="true" class="white-key"/>
+                    <ui:Button text="" name="key-treble-23" enabled="true" class="white-key"/>
                     <ui:Button text="" name="key-treble-25" class="white-key"/>
                     <ui:Button name="key-treble-27" class="white-key"/>
                     <ui:Button text="" name="key-treble-29" class="white-key"/>
-                    <ui:Button text="C6" name="key-treble-30" class="white-key"/>
+                    <ui:Button text="" name="key-treble-30" class="white-key"/>
                     <ui:Button text="" name="key-treble-32" class="white-key"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="black-keys" picking-mode="Ignore" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 40%; flex-direction: row; display: flex;">
@@ -133,23 +148,23 @@
             <ui:VisualElement name="keyboard-alto" class="keyboard" style="align-self: center; aspect-ratio: 8; display: none;">
                 <ui:VisualElement name="white-keys" style="flex-grow: 1; flex-direction: row; padding-top: 0%; padding-right: 0.6%; padding-bottom: 0%; padding-left: 1.8%;">
                     <ui:Button text="" name="key-alto-1" class="white-key"/>
-                    <ui:Button text="B2" name="key-alto-3" class="white-key"/>
+                    <ui:Button text="" name="key-alto-3" class="white-key"/>
                     <ui:Button text="" name="key-alto-4" class="white-key"/>
                     <ui:Button text="" name="key-alto-6" class="white-key"/>
                     <ui:Button text="" name="key-alto-8" enabled="true" class="white-key"/>
-                    <ui:Button text="F3" name="key-alto-9" class="white-key"/>
+                    <ui:Button text="" name="key-alto-9" class="white-key"/>
                     <ui:Button text="" name="key-alto-11" class="white-key"/>
                     <ui:Button text="" name="key-alto-13" class="white-key"/>
                     <ui:Button text="" name="key-alto-15" class="white-key"/>
-                    <ui:Button text="middle C" name="key-alto-16" class="white-key middle-C"/>
+                    <ui:Button text="C4" name="key-alto-16" class="white-key"/>
                     <ui:Button text="" name="key-alto-18" class="white-key"/>
                     <ui:Button text="" name="key-alto-20" class="white-key"/>
                     <ui:Button text="" name="key-alto-21" class="white-key"/>
-                    <ui:Button text="G4" name="key-alto-23" enabled="true" class="white-key"/>
+                    <ui:Button text="" name="key-alto-23" enabled="true" class="white-key"/>
                     <ui:Button text="" name="key-alto-25" class="white-key"/>
                     <ui:Button text="" name="key-alto-27" class="white-key"/>
                     <ui:Button text="" name="key-alto-28" class="white-key"/>
-                    <ui:Button text="D5" name="key-alto-30" class="white-key"/>
+                    <ui:Button text="" name="key-alto-30" class="white-key"/>
                     <ui:Button text="" name="key-alto-32" class="white-key"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="black-keys" picking-mode="Ignore" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 40%; flex-direction: row; display: flex;">
@@ -186,23 +201,23 @@
             <ui:VisualElement name="keyboard-tenor" class="keyboard" style="align-self: center; aspect-ratio: 8; display: none;">
                 <ui:VisualElement name="white-keys" style="flex-grow: 1; flex-direction: row; padding-top: 0%; padding-right: 1.3%; padding-bottom: 0%; padding-left: 1.2%;">
                     <ui:Button text="" name="key-tenor-0" class="white-key"/>
-                    <ui:Button text="G2" name="key-tenor-2" class="white-key"/>
+                    <ui:Button text="" name="key-tenor-2" class="white-key"/>
                     <ui:Button text="" name="key-tenor-4" class="white-key"/>
                     <ui:Button text="" name="key-tenor-6" class="white-key"/>
                     <ui:Button text="" name="key-tenor-7" enabled="true" class="white-key"/>
-                    <ui:Button text="D3" name="key-tenor-9" class="white-key"/>
+                    <ui:Button text="" name="key-tenor-9" class="white-key"/>
                     <ui:Button text="" name="key-tenor-11" class="white-key"/>
                     <ui:Button text="" name="key-tenor-12" class="white-key"/>
                     <ui:Button text="" name="key-tenor-14" class="white-key"/>
-                    <ui:Button text="A3" name="key-tenor-16" class="white-key"/>
+                    <ui:Button text="" name="key-tenor-16" class="white-key"/>
                     <ui:Button text="" name="key-tenor-18" class="white-key"/>
-                    <ui:Button text="middle C" name="key-tenor-19" enable-rich-text="true" class="white-key middle-C"/>
+                    <ui:Button text="C4" name="key-tenor-19" enable-rich-text="true" class="white-key middle-C"/>
                     <ui:Button text="" name="key-tenor-21" class="white-key"/>
-                    <ui:Button text="E4" name="key-tenor-23" enabled="true" class="white-key"/>
+                    <ui:Button text="" name="key-tenor-23" enabled="true" class="white-key"/>
                     <ui:Button text="" name="key-tenor-24" class="white-key"/>
                     <ui:Button text="" name="key-tenor-26" class="white-key"/>
                     <ui:Button text="" name="key-tenor-28" class="white-key"/>
-                    <ui:Button text="B4" name="key-tenor-30" class="white-key"/>
+                    <ui:Button text="" name="key-tenor-30" class="white-key"/>
                     <ui:Button text="" name="key-tenor-31" class="white-key"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="black-keys" picking-mode="Ignore" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 40%; flex-direction: row; display: flex;">

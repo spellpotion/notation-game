@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 191a6a82286a0b04caebf64c4ca1ae70, type: 3}
-  m_Name: NotationGame
-  m_EditorClassIdentifier: Assembly-CSharp::spellpotion.midiTutor.Manager.Config.GameNotation
-  NotationRange: 2
-  GameMode: 1
+  m_Script: {fileID: 11500000, guid: 8652ed4add110204cb61cfcd0d308c22, type: 3}
+  m_Name: Score
+  m_EditorClassIdentifier: Assembly-CSharp::spellpotion.midiTutor.Manager.Config.Score

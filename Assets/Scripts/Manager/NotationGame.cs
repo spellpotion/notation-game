@@ -8,6 +8,8 @@ namespace spellpotion.midiTutor.Manager
 {
     public class NotationGame : 抽象Manager<NotationGame, Config.NotationGame>
     {
+        private const float durationMax = 6f;
+
         #region Events
 
 
@@ -25,11 +27,16 @@ namespace spellpotion.midiTutor.Manager
         #region PublicStatic
 
 
-        public static void Answer(KeyName n) => InstanceRun(x => x.Answer_Instance(n));
-        public static NotationRange NotationRange => InstanceRun(x => x.Config.NotationRange);
+        public static void Answer(KeyName n)
+            => InstanceRun(x => x.Answer_Instance(n));
+
+        public static NotationRange NotationRange
+            => InstanceRun(x => x.Config.NotationRange);
 
 
         #endregion PublicStatic
+        #region Generic
+
 
         private NoteName noteName現;
         private KeyName answer;
@@ -38,7 +45,10 @@ namespace spellpotion.midiTutor.Manager
 
         protected void Start()
         {
-            StartCoroutine(Demo務());
+            if (Config.GameMode == GameMode.Demo)
+            {
+                StartCoroutine(Demo務());
+            }
         }
 
         private IEnumerator Demo務()
@@ -62,6 +72,11 @@ namespace spellpotion.midiTutor.Manager
 
                 Debug.Log($"{名} Result <i>{result}</i>");
                 yield return SyncEvent務(onResult, result);
+
+                if (result == Result.Correct)
+                {
+                    Score.Add((int)(100 * (durationMax / duration)));
+                }
 
                 answer = KeyName.Unknown;
                 lockAnswer = false;
@@ -110,5 +125,8 @@ namespace spellpotion.midiTutor.Manager
             NotationRange.Tenor => (11, 57), // F2 - C6#
             _ => (0, 0)
         };
+
+
+        #endregion Generic
     }
 }

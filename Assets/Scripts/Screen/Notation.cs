@@ -16,7 +16,7 @@ namespace spellpotion.midiTutor.Screen
         private const float durationPulseOff = .4f;
 
         private readonly Color colorZone原 = Color.gray6;
-        private readonly Color colorName原 = Color.slateGray;
+        private readonly Color colorName原 = Color.lightSteelBlue;
         private readonly Color colorAnswerIncorrect = Color.softRed;
         private readonly Color colorAnswerCorrect = Color.springGreen;
         private readonly Color colorAnswerPartial = Color.orange;
@@ -31,6 +31,7 @@ namespace spellpotion.midiTutor.Screen
         private VisualElement noteNameContainer;
         private Label labelNoteName;
 
+        private Label score;
         private Button[] keys;
 
         private Coroutine releaseNote務;
@@ -46,10 +47,12 @@ namespace spellpotion.midiTutor.Screen
             NotationGame.OnQuestion.AddListener(OnQuestion);
             NotationGame.OnAnswer.AddListener(OnAnswer);
             NotationGame.OnResult.AddListener(OnResult);
+            Score.OnUpdateScore.AddListener(OnUpdateScore);
         }
 
         protected void OnDisable()
         {
+            Score.OnUpdateScore.RemoveListener(OnUpdateScore);
             NotationGame.OnResult.RemoveListener(OnResult);
             NotationGame.OnAnswer.RemoveListener(OnAnswer);
             NotationGame.OnQuestion.RemoveListener(OnQuestion);
@@ -118,6 +121,11 @@ namespace spellpotion.midiTutor.Screen
             NotationGame.WaitUntil(() => showResult務 == null);
         }
 
+        private void OnUpdateScore(int value)
+        {
+            score.text = value.ToString();
+        }
+
         protected void Awake()
         {
             root = GetComponent<UIDocument>().rootVisualElement;
@@ -143,6 +151,9 @@ namespace spellpotion.midiTutor.Screen
             labelNoteName.text = string.Empty;
 
             noteNameContainer = root.Q<VisualElement>("note-name-container");
+
+            score = root.Q<Label>("score");
+            score.text = "0";
         }
 
         protected void Start()

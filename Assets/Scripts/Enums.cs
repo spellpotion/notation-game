@@ -189,4 +189,10 @@ namespace spellpotion.midiTutor
         Partial,
         Incorrect,
     }
+
+    public enum GameMode
+    {
+        None,
+        Demo,
+    }
 }

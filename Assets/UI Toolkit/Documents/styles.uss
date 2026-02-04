@@ -39,10 +39,7 @@
     background-color: rgb(245, 245, 245);
 }
 
-.middle-C {
-    font-size: 14px;
-    -unity-font-style: normal;
-}
+
 
 .black-key {
     width: 30px;
@@ -101,4 +98,24 @@
 .keyboard {
     width: 93%;
     aspect-ratio: 8;
+}
+
+.life {
+    aspect-ratio: 0.5472482;
+    height: 50px;
+    -unity-background-image-tint-color: rgb(245, 245, 245);
+}
+
+.top-label {
+    -unity-font-definition: url("project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#LegacyRuntime");
+    font-size: 26px;
+    color: rgb(153, 153, 153);
+}
+
+.top-side-container {
+    justify-content: space-between;
+    padding-top: 1%;
+    padding-right: 3.5%;
+    padding-bottom: 1%;
+    padding-left: 3.5%;
 }
