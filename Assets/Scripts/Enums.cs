@@ -27,6 +27,7 @@ namespace spellpotion.midiTutor
     public enum NoteName
     {
         Unknown,
+        AS1,
         BF1,
         B1,
         C2,
@@ -102,6 +103,7 @@ namespace spellpotion.midiTutor
         DF6,
         D6,
         DS6,
+        EF6
     }
 
     public enum KeyName
@@ -178,5 +180,13 @@ namespace spellpotion.midiTutor
         Treble,
         Alto,
         Tenor,
+    }
+
+    public enum Result
+    {
+        NoAnswer,
+        Correct,
+        Partial,
+        Incorrect,
     }
 }

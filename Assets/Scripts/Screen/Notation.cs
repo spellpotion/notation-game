@@ -3,7 +3,6 @@ using spellpotion.midiTutor.Manager;
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 namespace spellpotion.midiTutor.Screen
@@ -11,13 +10,16 @@ namespace spellpotion.midiTutor.Screen
     [RequireComponent(typeof(UIDocument))]
     public class Notation : 抽象Screen
     {
-        private const float translateXMax = 1450f;
-        private const float durationPulse = .4f;
-        private const float durationPulseHalf = .1f;
+        private const float differenceX = 1450f;
 
-        private readonly Color colorQuery = Color.powderBlue;
-        private readonly Color colorAnswerFalse = Color.softRed;
-        private readonly Color colorAnswerTrue = Color.springGreen;
+        private const float durationPulseOn = .2f;
+        private const float durationPulseOff = .4f;
+
+        private readonly Color colorZone原 = Color.gray6;
+        private readonly Color colorName原 = Color.slateGray;
+        private readonly Color colorAnswerIncorrect = Color.softRed;
+        private readonly Color colorAnswerCorrect = Color.springGreen;
+        private readonly Color colorAnswerPartial = Color.orange;
 
         private VisualElement root;
         private VisualElement note;
@@ -26,43 +28,47 @@ namespace spellpotion.midiTutor.Screen
         private VisualElement ledger2;
         private VisualElement sharp;
         private VisualElement greyZone;
-        private Label labelAnswer;
-        private Label labelResult;
+        private VisualElement noteNameContainer;
+        private Label labelNoteName;
 
         private Button[] keys;
 
         private Coroutine releaseNote務;
-        private Coroutine pulse務;
+        private Coroutine showResult務;
 
-        private KeyName keyNameQuery;
-        private KeyName keyNameAnswer;
+        private string question;
         private Accidental accidental;
 
         private NotationRange Range => NotationGame.NotationRange;
 
         protected override void OnEnable()
         {
-            NotationGame.OnQuery.AddListener(OnQuery);
-            NotationGame.OnResult.AddListener(OnResult);
+            NotationGame.OnQuestion.AddListener(OnQuestion);
             NotationGame.OnAnswer.AddListener(OnAnswer);
+            NotationGame.OnResult.AddListener(OnResult);
         }
 
         protected void OnDisable()
         {
-            NotationGame.OnAnswer.RemoveListener(OnAnswer);
             NotationGame.OnResult.RemoveListener(OnResult);
-            NotationGame.OnQuery.RemoveListener(OnQuery);
+            NotationGame.OnAnswer.RemoveListener(OnAnswer);
+            NotationGame.OnQuestion.RemoveListener(OnQuestion);
         }
 
-        private void OnQuery((NoteName noteName, float duration) query)
+        private void OnQuestion((NoteName noteName, float duration) question)
         {
-            var lineNote = GetLineNote();
-            keyNameQuery = Conversion.NoteNameToKeyName(query.noteName);
-            accidental = NoteNameToAccidental(query.noteName);
-            var (offset1, offset2) = LineNoteToLedgerOffset(lineNote);
+            // accidental
+
+            this.question = Conversion.NoteNameToString(question.noteName);
+            accidental = NoteNameToAccidental(question.noteName);
 
             flat.style.display = accidental == Accidental.Flat ? DisplayStyle.Flex : DisplayStyle.None;
             sharp.style.display = accidental == Accidental.Sharp ? DisplayStyle.Flex : DisplayStyle.None;
+
+            // ledger line
+
+            var lineNote = NoteNameToLineNote();
+            var (offset1, offset2) = LineNoteToLedgerOffset(lineNote);
 
             if (offset1.HasValue)
             {
@@ -78,66 +84,20 @@ namespace spellpotion.midiTutor.Screen
             }
             else ledger2.style.display = DisplayStyle.None;
 
+            // release note
+
             SetNull(ref releaseNote務);
-            releaseNote務 = StartCoroutine(ReleaseNote務(lineNote, query.duration));
+            releaseNote務 = StartCoroutine(ReleaseNote務(lineNote, question.duration));
+            
 
-            keyNameAnswer = KeyName.Unknown;
-
-            LineNote GetLineNote() => NotationGame.NotationRange switch
+            LineNote NoteNameToLineNote() => NotationGame.NotationRange switch
             {
-                NotationRange.Bass => NoteNameToLineNoteBass(query.noteName),
-                NotationRange.Treble => NoteNameToLineNoteTreble(query.noteName),
-                NotationRange.Alto => NoteNameToLineNoteAlto(query.noteName),
-                NotationRange.Tenor => NoteNameToLineNoteTenor(query.noteName),
+                NotationRange.Bass => NoteNameToLineNoteBass(question.noteName),
+                NotationRange.Treble => NoteNameToLineNoteTreble(question.noteName),
+                NotationRange.Alto => NoteNameToLineNoteAlto(question.noteName),
+                NotationRange.Tenor => NoteNameToLineNoteTenor(question.noteName),
                 _ => LineNote.Unknown
             };
-        }
-
-        private void OnResult(bool value)
-        {
-            SetNull(ref pulse務);
-
-            pulse務 = StartCoroutine(Pulse務(value));
-
-            if (value)
-            {
-                labelAnswer.style.backgroundColor = colorAnswerTrue;
-            }
-            else
-            {
-                labelResult.style.display = DisplayStyle.Flex;
-                labelResult.style.backgroundColor = colorQuery;
-
-                labelAnswer.style.backgroundColor = colorAnswerFalse;
-
-                var noteNameQuery = accidental == Accidental.Flat ?
-                    Conversion.KeyNameToNoteNameFlat(keyNameQuery) :
-                    Conversion.KeyNameToNoteNameSharp(keyNameQuery);
-                var noteStringQuery = Conversion.NoteNameToString(noteNameQuery);
-
-                if (keyNameAnswer != KeyName.Unknown && IsSamePitchClass())
-                {
-                    var noteName = accidental == Accidental.Flat ?
-                        Conversion.KeyNameToNoteNameFlat(keyNameAnswer) :
-                        Conversion.KeyNameToNoteNameSharp(keyNameAnswer);
-                    var noteStringAnswer = Conversion.NoteNameToString(noteName);
-
-                    labelResult.text = noteStringQuery;
-                    labelAnswer.text = noteStringAnswer;
-                }
-                else
-                {
-                    labelResult.text = noteStringQuery[..^1];
-                }
-            }
-
-            bool IsSamePitchClass()
-            {
-                int index1 = ((int)keyNameQuery - (int)KeyName.A1B1) % 12;
-                int index2 = ((int)keyNameAnswer - (int)KeyName.A1B1) % 12;
-
-                return index1 == index2;
-            }
         }
 
         private void OnAnswer(KeyName keyName)
@@ -147,13 +107,15 @@ namespace spellpotion.midiTutor.Screen
                 Conversion.KeyNameToNoteNameSharp(keyName);
             var noteString = Conversion.NoteNameToString(noteName);
 
-            labelResult.style.display = DisplayStyle.None;
+            labelNoteName.text = noteString[..^1];
+        }
 
-            labelAnswer.style.display = DisplayStyle.Flex;
-            labelAnswer.style.backgroundColor = colorQuery;
-            labelAnswer.text = noteString[..^1];
+        private void OnResult(Result result)
+        {
+            SetNull(ref showResult務);
+            showResult務 = StartCoroutine(ShowResult務(result));
 
-            keyNameAnswer = keyName;
+            NotationGame.WaitUntil(() => showResult務 == null);
         }
 
         protected void Awake()
@@ -177,11 +139,10 @@ namespace spellpotion.midiTutor.Screen
 
             greyZone = root.Q<VisualElement>("staff-occlusion-container");
 
-            labelAnswer = root.Q<Label>("answer-label");
-            labelAnswer.style.display = DisplayStyle.None;
+            labelNoteName = root.Q<Label>("note-name-label");
+            labelNoteName.text = string.Empty;
 
-            labelResult = root.Q<Label>("result-label");
-            labelResult.style.display = DisplayStyle.None;
+            noteNameContainer = root.Q<VisualElement>("note-name-container");
         }
 
         protected void Start()
@@ -256,8 +217,6 @@ namespace spellpotion.midiTutor.Screen
 
         private IEnumerator ReleaseNote務(LineNote lineNote, float duration)
         {
-            var difference = translateXMax;
-
             var time始 = Time.time;
             var time的 = time始 + duration;
 
@@ -269,8 +228,7 @@ namespace spellpotion.midiTutor.Screen
                 var time = Time.time - time始;
                 var progress = Mathf.Clamp01(time / duration);
 
-                var offsetX = new Length(translateXMax - progress * difference, LengthUnit.Percent);
-
+                var offsetX = Percent((1f - progress) * differenceX);
                 note.style.translate = new Translate(offsetX, 0f, 0f);
 
                 yield return null;
@@ -281,42 +239,93 @@ namespace spellpotion.midiTutor.Screen
             releaseNote務 = null;
         }
 
-        private IEnumerator Pulse務(bool value)
+        private IEnumerator ShowResult務(Result result)
         {
             var time始 = Time.time;
-            var time中 = time始 + durationPulseHalf;
-            var time的 = time始 + durationPulse;
-            
-            var durationPulseHalf2 = durationPulse - durationPulseHalf;
+            var time的 = time始 + durationPulseOn;
 
-            var color原 = new Color(.6f, .6f, .6f, 1f); // not possible to get
-            var color的 = value ? colorAnswerTrue : colorAnswerFalse;
+            var color的 = result switch
+            {
+                Result.Correct => colorAnswerCorrect,
+                Result.Partial => colorAnswerPartial,
+                _ => colorAnswerIncorrect
+            };
 
-            while (Time.time < time中)
+            while (Time.time < time的)
             {
                 var time = Time.time - time始;
-                var progress = Mathf.Clamp01(time / durationPulseHalf);
+                var progress = Mathf.Clamp01(time / durationPulseOn);
 
-                greyZone.style.backgroundColor = Utils.Lerp(color原, color的, progress);
+                greyZone.style.backgroundColor
+                    = Utils.Lerp(colorZone原, color的, progress);
+                noteNameContainer.style.backgroundColor
+                    = Utils.Lerp(colorName原, color的, progress);
 
                 yield return null;
             }
 
             greyZone.style.backgroundColor = color的;
+            noteNameContainer.style.backgroundColor = color的;
+
+            time始 = Time.time;
+            time的 = time始 + durationPulseOff;
 
             while (Time.time < time的)
             {
-                var time = Time.time - time中;
-                var progress = Mathf.Clamp01(time / durationPulseHalf2);
+                var time = Time.time - time始;
+                var progress = Mathf.Clamp01(time / durationPulseOff);
 
-                greyZone.style.backgroundColor = Utils.Lerp(color的, color原, progress);
+                greyZone.style.backgroundColor = Utils.Lerp(color的, colorZone原, progress);
+                noteNameContainer.style.backgroundColor = Utils.Lerp(color的, colorName原, progress);
+                labelNoteName.style.opacity = (1f - progress);
 
                 yield return null;
             }
 
-            greyZone.style.backgroundColor = color原;
+            greyZone.style.backgroundColor = colorZone原;
+            noteNameContainer.style.backgroundColor = colorName原;
+            labelNoteName.text = string.Empty;
+            labelNoteName.style.opacity = 1f;
 
-            pulse務 = null;
+            if (result == Result.Correct)
+            {
+                showResult務 = null;
+
+                yield break;
+            }
+
+            time始 = Time.time;
+            time的 = time始 + durationPulseOn;
+
+            labelNoteName.text = result == Result.Partial ? question : question[..^1];
+
+            while (Time.time < time的)
+            {
+                var time = Time.time - time始;
+                var progress = Mathf.Clamp01(time / durationPulseOn);
+
+                labelNoteName.style.opacity = progress;
+
+                yield return null;
+            }
+
+            time始 = Time.time;
+            time的 = time始 + durationPulseOff;
+
+            while (Time.time < time的)
+            {
+                var time = Time.time - time始;
+                var progress = Mathf.Clamp01(time / durationPulseOff);
+
+                labelNoteName.style.opacity = (1f - progress);
+
+                yield return null;
+            }
+
+            labelNoteName.text = string.Empty;
+            labelNoteName.style.opacity = 1f;
+
+            showResult務 = null;
         }
 
         private static LineNote MidiNoteToLineNote(int midiNote) => midiNote switch
@@ -552,6 +561,7 @@ namespace spellpotion.midiTutor.Screen
 
         private static Accidental NoteNameToAccidental(NoteName noteName) => noteName switch
         {
+            NoteName.AS1 => Accidental.Sharp,
             NoteName.BF1 => Accidental.Flat,
             NoteName.CS2 => Accidental.Sharp,
             NoteName.DF2 => Accidental.Flat,
@@ -596,6 +606,7 @@ namespace spellpotion.midiTutor.Screen
             NoteName.CS6 => Accidental.Sharp,
             NoteName.DF6 => Accidental.Flat,
             NoteName.DS6 => Accidental.Sharp,
+            NoteName.EF6 => Accidental.Flat,
             _ => Accidental.None
         };
 

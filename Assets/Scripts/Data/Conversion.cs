@@ -6,6 +6,7 @@ namespace spellpotion.midiTutor.Data
     {
         public static KeyName NoteNameToKeyName(NoteName noteName) => noteName switch
         {
+            NoteName.AS1 => KeyName.A1B1,
             NoteName.BF1 => KeyName.A1B1,
             NoteName.B1 => KeyName.B1,
             NoteName.C2 => KeyName.C2,
@@ -81,6 +82,7 @@ namespace spellpotion.midiTutor.Data
             NoteName.DF6 => KeyName.C6D6,
             NoteName.D6 => KeyName.D6,
             NoteName.DS6 => KeyName.D6E6,
+            NoteName.EF6 => KeyName.D6E6,
             _ => KeyName.Unknown
         };
 
