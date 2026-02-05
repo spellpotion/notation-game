@@ -27,9 +27,6 @@ namespace spellpotion.midiTutor.Manager
         #region PublicStatic
 
 
-        public static void Answer(KeyName n)
-            => InstanceRun(x => x.Answer_Instance(n));
-
         public static NotationRange NotationRange
             => InstanceRun(x => x.Config.NotationRange);
 
@@ -37,6 +34,34 @@ namespace spellpotion.midiTutor.Manager
         #endregion PublicStatic
         #region Generic
 
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            Midi.OnNoteOn.AddListener(OnNoteOn);
+        }
+
+        protected override void OnDisable()
+        {
+            Midi.OnNoteOn.RemoveListener(OnNoteOn);
+
+            base.OnDisable();
+        }
+
+        private void OnNoteOn((int noteNumber, int velocity) noteOn)
+        {
+            if (lockAnswer) return;
+
+            var index = noteOn.noteNumber - Midi.Offset;
+
+            if (index < 1 || index > 54) return;
+
+            answer = (KeyName)index;
+
+            Debug.Log($"{名} received <i>{answer}</i>");
+            onAnswer?.Invoke(answer);
+        }
 
         private NoteName noteName現;
         private KeyName answer;
@@ -97,16 +122,6 @@ namespace spellpotion.midiTutor.Manager
 
                 return Result.Incorrect;
             }
-        }
-
-        private void Answer_Instance(KeyName keyName)
-        {
-            if (lockAnswer) return;
-
-            answer = keyName;
-
-            Debug.Log($"{名} Answer <i>{keyName}</i>");
-            onAnswer?.Invoke(keyName);
         }
 
         private static bool IsSamePitchClass(KeyName key1, KeyName key2)

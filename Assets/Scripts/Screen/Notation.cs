@@ -20,6 +20,8 @@ namespace spellpotion.midiTutor.Screen
         private readonly Color colorAnswerIncorrect = Color.softRed;
         private readonly Color colorAnswerCorrect = Color.springGreen;
         private readonly Color colorAnswerPartial = Color.orange;
+        private readonly Color colorKeyWhite = Color.whiteSmoke;
+        private readonly Color colorKeyBlack = Color.gray2;
 
         private VisualElement root;
         private VisualElement note;
@@ -111,10 +113,17 @@ namespace spellpotion.midiTutor.Screen
             var noteString = Conversion.NoteNameToString(noteName);
 
             labelNoteName.text = noteString[..^1];
+
+            RevertKeysColor();
+
+            var index = (int)keyName - GetKeyOffset();
+            keys[index].style.backgroundColor = colorName原;
         }
 
         private void OnResult(Result result)
         {
+            RevertKeysColor();
+
             SetNull(ref showResult務);
             showResult務 = StartCoroutine(ShowResult務(result));
 
@@ -210,20 +219,11 @@ namespace spellpotion.midiTutor.Screen
 
                 button.clicked += () =>
                 {
-                    NotationGame.Answer(keyNamesAll[index]);
+                    Midi.NoteOn((index + Midi.Offset, 0));
                 };
 
                 keys[i] = button;
             }
-
-            static int GetKeyOffset() => NotationGame.NotationRange switch
-            { 
-                NotationRange.Bass => 1,
-                NotationRange.Treble => 21,
-                NotationRange.Alto => 11,
-                NotationRange.Tenor => 8,
-                _ => 0
-            };
         }
 
         private IEnumerator ReleaseNote務(LineNote lineNote, float duration)
@@ -337,6 +337,21 @@ namespace spellpotion.midiTutor.Screen
             labelNoteName.style.opacity = 1f;
 
             showResult務 = null;
+        }
+
+        private void RevertKeysColor()
+        {
+            foreach (var key in keys)
+            {
+                if (key.ClassListContains("white-key"))
+                {
+                    key.style.backgroundColor = colorKeyWhite;
+                }
+                else if (key.ClassListContains("black-key"))
+                {
+                    key.style.backgroundColor = colorKeyBlack;
+                }
+            }
         }
 
         private static LineNote MidiNoteToLineNote(int midiNote) => midiNote switch
@@ -666,6 +681,15 @@ namespace spellpotion.midiTutor.Screen
             LineNote.C2 => 85,
             LineNote.B1 => 90,
             _ => -1
+        };
+
+        static int GetKeyOffset() => NotationGame.NotationRange switch
+        {
+            NotationRange.Bass => 1,
+            NotationRange.Treble => 21,
+            NotationRange.Alto => 11,
+            NotationRange.Tenor => 8,
+            _ => 0
         };
     }
 }
