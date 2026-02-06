@@ -31,11 +31,13 @@
     flex-shrink: 1;
     transition-property: background-color;
     transition-duration: 0.2s;
-    transition-timing-function: ease;
+    transition-timing-function: ease-in;
 }
 
 .white-key:hover {
     background-color: rgb(211, 211, 211);
+    transition-property: background-color;
+    transition-duration: 0s;
 }
 
 .white-key:active {
@@ -69,10 +71,13 @@
     flex-shrink: 1;
     transition-property: background-color;
     transition-duration: 0.2s;
+    transition-timing-function: ease-in;
 }
 
 .black-key:hover {
     background-color: rgb(77, 77, 77);
+    transition-property: background-color;
+    transition-duration: 0s;
 }
 
 .black-key:active {
@@ -121,4 +126,11 @@
     padding-right: 3.5%;
     padding-bottom: 1%;
     padding-left: 3.5%;
+}
+
+.pressed {
+    background-color: rgb(176, 196, 222);
+    transition-property: background-color;
+    transition-timing-function: ease-out;
+    transition-duration: 0s;
 }

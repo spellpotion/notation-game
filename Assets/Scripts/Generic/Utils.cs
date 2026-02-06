@@ -30,15 +30,5 @@ namespace spellpotion
                 Mathf.Lerp(a.a, b.a, t)
             );
         }
-
-        public static IEnumerator WaitForSecondsOrWhile(float seconds, Func<bool> condition)
-        {
-            var time的 = Time.time + seconds;
-
-            while (Time.time < time的 && condition())
-            {
-                yield return null;
-            }
-        }
     }
 }

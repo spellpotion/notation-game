@@ -141,11 +141,13 @@ namespace spellpotion.midiTutor.Data
             KeyName.C6 => NoteName.C6,
             KeyName.C6D6 => NoteName.DF6,
             KeyName.D6 => NoteName.D6,
+            KeyName.D6E6 => NoteName.EF6,
             _ => NoteName.Unknown
         };
 
         public static NoteName KeyNameToNoteNameSharp(KeyName keyName) => keyName switch
         {
+            KeyName.A1B1 => NoteName.AS1,
             KeyName.B1 => NoteName.B1,
             KeyName.C2 => NoteName.C2,
             KeyName.C2D2 => NoteName.CS2,
@@ -204,6 +206,7 @@ namespace spellpotion.midiTutor.Data
 
         public static string NoteNameToString(NoteName noteName) => noteName switch
         {
+            NoteName.AS1 => "A♯1",
             NoteName.BF1 => "B♭1",
             NoteName.B1 => "B1",
             NoteName.C2 => "C2",
@@ -279,6 +282,7 @@ namespace spellpotion.midiTutor.Data
             NoteName.DF6 => "D♭6",
             NoteName.D6 => "D6",
             NoteName.DS6 => "D♯6",
+            NoteName.EF6 => "E♭6",
             _ => string.Empty
         };
     }

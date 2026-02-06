@@ -20,8 +20,6 @@ namespace spellpotion.midiTutor.Screen
         private readonly Color colorAnswerIncorrect = Color.softRed;
         private readonly Color colorAnswerCorrect = Color.springGreen;
         private readonly Color colorAnswerPartial = Color.orange;
-        private readonly Color colorKeyWhite = Color.whiteSmoke;
-        private readonly Color colorKeyBlack = Color.gray2;
 
         private VisualElement root;
         private VisualElement note;
@@ -112,12 +110,15 @@ namespace spellpotion.midiTutor.Screen
                 Conversion.KeyNameToNoteNameSharp(keyName);
             var noteString = Conversion.NoteNameToString(noteName);
 
-            labelNoteName.text = noteString[..^1];
+            if (!string.IsNullOrEmpty(noteString))
+            {
+                labelNoteName.text = noteString[..^1];
+            }
 
             RevertKeysColor();
 
             var index = (int)keyName - GetKeyOffset();
-            keys[index].style.backgroundColor = colorName原;
+            keys[index].AddToClassList("pressed");
         }
 
         private void OnResult(Result result)
@@ -343,14 +344,7 @@ namespace spellpotion.midiTutor.Screen
         {
             foreach (var key in keys)
             {
-                if (key.ClassListContains("white-key"))
-                {
-                    key.style.backgroundColor = colorKeyWhite;
-                }
-                else if (key.ClassListContains("black-key"))
-                {
-                    key.style.backgroundColor = colorKeyBlack;
-                }
+                key.RemoveFromClassList("pressed");
             }
         }
 
