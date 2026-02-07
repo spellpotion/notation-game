@@ -1,20 +1,15 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Documents/styles.uss?fileID=7433441132597879392&amp;guid=f282fee335b048548966eb3c5609d99c&amp;type=3#styles"/>
     <ui:VisualElement name="main-container" style="flex-grow: 1; justify-content: flex-start; background-color: rgb(26, 26, 26); align-self: center; width: 1740px; align-items: center;">
-        <ui:VisualElement name="header-container" style="flex-grow: 1; background-color: rgb(51, 51, 51); border-bottom-width: 20px; border-left-color: rgb(26, 26, 26); border-right-color: rgb(26, 26, 26); border-top-color: rgb(26, 26, 26); border-bottom-color: rgb(26, 26, 26); width: 100%; flex-direction: row; min-width: 100%; justify-content: space-between;">
+        <ui:VisualElement name="header-container" style="flex-grow: 1; background-color: rgb(51, 51, 51); border-bottom-width: 20px; border-left-color: rgb(26, 26, 26); border-right-color: rgb(26, 26, 26); border-top-color: rgb(26, 26, 26); border-bottom-color: rgb(26, 26, 26); width: 100%; flex-direction: row; min-width: 100%; justify-content: space-between; height: 16%; min-height: auto; max-height: 14%;">
             <ui:VisualElement name="header-left" class="top-side-container" style="padding-top: 1%; padding-bottom: 1%; padding-left: 3.5%;">
                 <ui:VisualElement name="score-container" style="flex-grow: 1; -unity-text-align: middle-left;">
                     <ui:Label text="88888888" name="score" style="color: rgb(245, 245, 245); font-size: 34px; -unity-font-definition: url(&quot;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#LegacyRuntime&quot;); -unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:Label text="SCORE" name="score-label" class="top-label"/>
             </ui:VisualElement>
-            <ui:VisualElement name="header-right" class="top-side-container" style="align-items: flex-end; display: none;">
-                <ui:VisualElement name="life-container" style="flex-direction: row-reverse; justify-content: space-between; width: 130px; padding-right: 7px; -unity-font-style: normal;">
-                    <ui:VisualElement name="life-1" class="life" style="background-image: url(&quot;project://database/Assets/Vector%20Images/EightNote.svg?fileID=7388822144124034973&amp;guid=a5ab69287e9d2494195c96e0f0fa6666&amp;type=3#EightNote&quot;); display: flex;"/>
-                    <ui:VisualElement name="life-2" class="life" style="background-image: url(&quot;project://database/Assets/Vector%20Images/EightNote.svg?fileID=7388822144124034973&amp;guid=a5ab69287e9d2494195c96e0f0fa6666&amp;type=3#EightNote&quot;); display: flex;"/>
-                    <ui:VisualElement name="life-3" class="life" style="background-image: url(&quot;project://database/Assets/Vector%20Images/EightNote.svg?fileID=7388822144124034973&amp;guid=a5ab69287e9d2494195c96e0f0fa6666&amp;type=3#EightNote&quot;); display: flex;"/>
-                </ui:VisualElement>
-                <ui:Label text="LIVES" name="life-label" class="top-label" style="-unity-text-align: middle-right;"/>
+            <ui:VisualElement name="header-right" class="top-side-container" style="display: flex; align-content: auto; width: 20%; padding-right: 3%;">
+                <ui:Image style="background-image: url(&quot;project://database/Assets/Vector%20Images/spellpotion.svg?fileID=7388822144124034973&amp;guid=479a68ac18c30aa4386f4c223535a751&amp;type=3#spellpotion&quot;); flex-grow: 0; -unity-background-scale-mode: scale-to-fit; background-position-x: right 0; -unity-background-image-tint-color: rgb(176, 196, 222); height: 90%;"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="staff-occlusion-container" style="flex-grow: 0; overflow: hidden; flex-direction: row; align-self: center; width: 60%; aspect-ratio: 2.35; background-color: rgb(153, 153, 153); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;">
