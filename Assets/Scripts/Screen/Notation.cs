@@ -63,7 +63,7 @@ namespace spellpotion.midiTutor.Screen
             // accidental
 
             this.question = Conversion.NoteNameToString(question.noteName);
-            accidental = NoteNameToAccidental(question.noteName);
+            accidental = Conversion.NoteNameToAccidental(question.noteName);
 
             flat.style.display = accidental == Accidental.Flat ? DisplayStyle.Flex : DisplayStyle.None;
             sharp.style.display = accidental == Accidental.Sharp ? DisplayStyle.Flex : DisplayStyle.None;
@@ -118,7 +118,11 @@ namespace spellpotion.midiTutor.Screen
             RevertKeysColor();
 
             var index = (int)keyName - GetKeyOffset();
-            keys[index].AddToClassList("pressed");
+
+            if (index >= 0 && index < keys.Length)
+            {
+                keys[index].AddToClassList("pressed");
+            }
         }
 
         private void OnResult(Result result)
@@ -259,7 +263,7 @@ namespace spellpotion.midiTutor.Screen
             var color的 = result switch
             {
                 Result.Correct => colorAnswerCorrect,
-                Result.Partial => colorAnswerPartial,
+                Result.PartiallyCorrect => colorAnswerPartial,
                 _ => colorAnswerIncorrect
             };
 
@@ -309,7 +313,7 @@ namespace spellpotion.midiTutor.Screen
             time始 = Time.time;
             time的 = time始 + durationPulseOn;
 
-            labelNoteName.text = result == Result.Partial ? question : question[..^1];
+            labelNoteName.text = result == Result.PartiallyCorrect ? question : question[..^1];
 
             while (Time.time < time的)
             {
@@ -577,57 +581,6 @@ namespace spellpotion.midiTutor.Screen
             NoteName.C5 => LineNote.F4,
             NoteName.CS5 => LineNote.F4,
             _ => LineNote.Unknown
-        };
-
-        private static Accidental NoteNameToAccidental(NoteName noteName) => noteName switch
-        {
-            NoteName.AS1 => Accidental.Sharp,
-            NoteName.BF1 => Accidental.Flat,
-            NoteName.CS2 => Accidental.Sharp,
-            NoteName.DF2 => Accidental.Flat,
-            NoteName.DS2 => Accidental.Sharp,
-            NoteName.EF2 => Accidental.Flat,
-            NoteName.FS2 => Accidental.Sharp,
-            NoteName.GF2 => Accidental.Flat,
-            NoteName.GS2 => Accidental.Sharp,
-            NoteName.AF2 => Accidental.Flat,
-            NoteName.AS2 => Accidental.Sharp,
-            NoteName.BF2 => Accidental.Flat,
-            NoteName.CS3 => Accidental.Sharp,
-            NoteName.DF3 => Accidental.Flat,
-            NoteName.DS3 => Accidental.Sharp,
-            NoteName.EF3 => Accidental.Flat,
-            NoteName.FS3 => Accidental.Sharp,
-            NoteName.GF3 => Accidental.Flat,
-            NoteName.GS3 => Accidental.Sharp,
-            NoteName.AF3 => Accidental.Flat,
-            NoteName.AS3 => Accidental.Sharp,
-            NoteName.BF3 => Accidental.Flat,
-            NoteName.CS4 => Accidental.Sharp,
-            NoteName.DF4 => Accidental.Flat,
-            NoteName.DS4 => Accidental.Sharp,
-            NoteName.EF4 => Accidental.Flat,
-            NoteName.FS4 => Accidental.Sharp,
-            NoteName.GF4 => Accidental.Flat,
-            NoteName.GS4 => Accidental.Sharp,
-            NoteName.AF4 => Accidental.Flat,
-            NoteName.AS4 => Accidental.Sharp,
-            NoteName.BF4 => Accidental.Flat,
-            NoteName.CS5 => Accidental.Sharp,
-            NoteName.DF5 => Accidental.Flat,
-            NoteName.DS5 => Accidental.Sharp,
-            NoteName.EF5 => Accidental.Flat,
-            NoteName.FS5 => Accidental.Sharp,
-            NoteName.GF5 => Accidental.Flat,
-            NoteName.GS5 => Accidental.Sharp,
-            NoteName.AF5 => Accidental.Flat,
-            NoteName.AS5 => Accidental.Sharp,
-            NoteName.BF5 => Accidental.Flat,
-            NoteName.CS6 => Accidental.Sharp,
-            NoteName.DF6 => Accidental.Flat,
-            NoteName.DS6 => Accidental.Sharp,
-            NoteName.EF6 => Accidental.Flat,
-            _ => Accidental.None
         };
 
         private static (Length? offset1, Length? offset2) LineNoteToLedgerOffset(LineNote lineNote) =>  lineNote switch

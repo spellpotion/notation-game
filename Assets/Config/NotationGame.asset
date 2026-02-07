@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: NotationGame
   m_EditorClassIdentifier: Assembly-CSharp::spellpotion.midiTutor.Manager.Config.GameNotation
   NotationRange: 1
-  GameMode: 1
+  GameMode: 2
+  AutoAnswer: 1
+  AutoAnswerSuccessRate: 0.83

@@ -29,6 +29,7 @@ namespace spellpotion.midiTutor.Manager
         private void Add_Instance(int value)
         {
             score += value;
+            Debug.Log($"{名} score += {value} => score <b>{score}<b>");
 
             onUpdateScore?.Invoke(score);
         }

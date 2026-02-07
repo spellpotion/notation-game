@@ -168,9 +168,8 @@ namespace spellpotion.midiTutor
     public enum Accidental
     {
         None,
-        Natural,
-        Flat,
         Sharp,
+        Flat,
     }
 
     public enum NotationRange
@@ -186,7 +185,7 @@ namespace spellpotion.midiTutor
     {
         NoAnswer,
         Correct,
-        Partial,
+        PartiallyCorrect,
         Incorrect,
     }
 
@@ -194,5 +193,6 @@ namespace spellpotion.midiTutor
     {
         None,
         Demo,
+        Endless,
     }
 }

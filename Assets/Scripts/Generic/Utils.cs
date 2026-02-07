@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 namespace spellpotion
@@ -29,6 +27,30 @@ namespace spellpotion
                 Mathf.Lerp(a.b, b.b, t),
                 Mathf.Lerp(a.a, b.a, t)
             );
+        }
+
+        public static int RandomMin(int max, int iterations)
+        {
+            var min = int.MaxValue;
+
+            for (var i = 0; i < iterations; i++)
+            {
+                min = Mathf.Min(min, Random.Range(0, max));
+            }
+
+            return min;
+        }
+
+        public static float RandomUp(float max, int iterations)
+        {
+            if (iterations <= 0)
+            {
+                return Random.Range(0f, max);
+            }
+            else
+            {
+                return Random.Range(RandomUp(max, iterations - 1), max);
+            }
         }
     }
 }

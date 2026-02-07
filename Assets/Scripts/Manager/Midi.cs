@@ -83,7 +83,10 @@ namespace spellpotion.midiTutor.Manager
 
         protected void OnApplicationQuit()
         {
-            inputDevice.Dispose();
+            if (inputDevice != null)
+            {
+                inputDevice.Dispose();
+            }
         }
 #endif
 
