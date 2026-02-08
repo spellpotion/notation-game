@@ -243,10 +243,9 @@ namespace spellpotion.midiTutor.Manager
 
             while (true)
             {
-                mastery.OrderBy(x => x.Value.countSuccess);
-
-                var index = Utils.RandomMin(mastery.Count, 2);
-                var elementAt = mastery.ElementAt(index);
+                var ordered = mastery.OrderBy(x => x.Value.countSuccess).ToList();
+                var index = Utils.RandomMin(ordered.Count, 2);
+                var elementAt = ordered.ElementAt(index);
                 noteName現 = elementAt.Key;
                 var (countTotal, countSuccess) = elementAt.Value;
 

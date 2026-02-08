@@ -15,7 +15,6 @@ namespace spellpotion.midiTutor.Manager.Config
         private void OnValidate()
         {
             Debug.Assert(NotationRange != NotationRange.None);
-            Debug.Assert(GameMode != GameMode.None);
         }
     }
 }
