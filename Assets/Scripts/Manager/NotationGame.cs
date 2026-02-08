@@ -37,8 +37,11 @@ namespace spellpotion.midiTutor.Manager
         #region PublicStatic
 
 
+        public static void SetNotationRange(NotationRange range)
+            => InstanceRun(x => x.SetNotationRange_Instance(range));
+
         public static NotationRange NotationRange
-            => InstanceRun(x => x.Config.NotationRange);
+            => InstanceRun(x => x.notationRange);
 
 
         #endregion PublicStatic
@@ -106,14 +109,17 @@ namespace spellpotion.midiTutor.Manager
         #endregion Listeners
         #region Common
 
+        private NotationRange notationRange = NotationRange.None;
 
         private NoteName noteName現;
         private KeyName answer;
 
         private bool lockAnswer;
 
-        protected override void OnStart()
+        private void SetNotationRange_Instance(NotationRange range)
         {
+            this.notationRange = range;
+
             if (Config.GameMode == GameMode.Demo)
             {
                 StartCoroutine(Demo務());
@@ -188,7 +194,7 @@ namespace spellpotion.midiTutor.Manager
         private IEnumerator Demo務()
         {
             var noteNames = (NoteName[])Enum.GetValues(typeof(NoteName));
-            var (minInclusive, maxEclusive) = RangeToIndices(Config.NotationRange);
+            var (minInclusive, maxEclusive) = RangeToIndices(notationRange);
 
             while (true)
             {
@@ -231,7 +237,7 @@ namespace spellpotion.midiTutor.Manager
         private IEnumerator Endless務()
         {
             var all = (NoteName[])Enum.GetValues(typeof(NoteName));
-            var (minInclusive, maxEclusive) = RangeToIndices(Config.NotationRange);
+            var (minInclusive, maxEclusive) = RangeToIndices(notationRange);
             var range = all.Skip(minInclusive).Take(maxEclusive - minInclusive).ToArray();
 
             BuildUnlockOrder(range);

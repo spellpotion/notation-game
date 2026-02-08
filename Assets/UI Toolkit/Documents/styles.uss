@@ -134,3 +134,39 @@
     transition-timing-function: ease-out;
     transition-duration: 0s;
 }
+
+.range-select {
+    aspect-ratio: 1;
+    background-color: rgb(106, 90, 205);
+    border-top-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 10px;
+    overflow: hidden;
+    border-bottom-color: rgb(72, 61, 139);
+    border-right-color: rgb(72, 61, 139);
+    border-top-color: rgb(123, 104, 238);
+    border-left-color: rgb(123, 104, 238);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    height: 100%;
+}
+
+.range-select-image {
+    -unity-background-scale-mode: scale-to-fit;
+    flex-grow: 1;
+}
+
+.range-select:hover {
+    background-color: rgb(154, 138, 255);
+}
+
+.range-select:active {
+    border-top-color: rgb(72, 61, 139);
+    border-right-color: rgb(123, 104, 238);
+    border-bottom-color: rgb(123, 104, 238);
+    border-left-color: rgb(72, 61, 139);
+    background-color: rgb(106, 90, 205);
+}

@@ -30,6 +30,7 @@ namespace spellpotion.midiTutor.Screen
         private VisualElement greyZone;
         private VisualElement noteNameContainer;
         private Label labelNoteName;
+        private VisualElement selectContainer;
 
         private Label score;
         private Button[] keys;
@@ -172,6 +173,54 @@ namespace spellpotion.midiTutor.Screen
 
         protected void Start()
         {
+            selectContainer = root.Q<VisualElement>("select-container");
+
+            if (Range == NotationRange.None)
+            {
+                selectContainer.style.display = DisplayStyle.Flex;
+
+                var selectBass = root.Q<Button>("select-bass");
+                selectBass.clicked += () => 
+                {
+                    NotationGame.SetNotationRange(NotationRange.Bass);
+
+                    InitializeKeyboard();
+                };
+
+                var selectTenor = root.Q<Button>("select-tenor");
+                selectTenor.clicked += () =>
+                {
+                    NotationGame.SetNotationRange(NotationRange.Tenor);
+
+                    InitializeKeyboard();
+                };
+
+                var selectAlto = root.Q<Button>("select-alto");
+                selectAlto.clicked += () =>
+                {
+                    NotationGame.SetNotationRange(NotationRange.Alto);
+
+                    InitializeKeyboard();
+                };
+
+                var selectTreble = root.Q<Button>("select-treble");
+                selectTreble.clicked += () =>
+                {
+                    NotationGame.SetNotationRange(NotationRange.Treble);
+
+                    InitializeKeyboard();
+                };
+            }
+            else
+            {
+                InitializeKeyboard();
+            }
+        }
+
+        private void InitializeKeyboard()
+        {
+            selectContainer.style.display = DisplayStyle.None;
+
             var keyboardBass = root.Q<VisualElement>("keyboard-bass");
             keyboardBass.style.display = Range == NotationRange.Bass ?
                 DisplayStyle.Flex : DisplayStyle.None;
@@ -204,11 +253,6 @@ namespace spellpotion.midiTutor.Screen
             clefT.style.display = Range == NotationRange.Tenor ?
                 DisplayStyle.Flex : DisplayStyle.None;
 
-            InitializeKeyboard();
-        }
-
-        private void InitializeKeyboard()
-        {
             var keyOffset = GetKeyOffset();
             var keyNamesAll = (KeyName[])Enum.GetValues(typeof(KeyName));
             var rangeName = Enum.GetName(typeof(NotationRange), Range).ToLower();
