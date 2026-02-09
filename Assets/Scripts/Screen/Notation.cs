@@ -177,6 +177,7 @@ namespace spellpotion.midiTutor.Screen
 
             if (Range == NotationRange.None)
             {
+                noteNameContainer.style.display = DisplayStyle.None;
                 selectContainer.style.display = DisplayStyle.Flex;
 
                 var selectBass = root.Q<Button>("select-bass");
@@ -219,6 +220,11 @@ namespace spellpotion.midiTutor.Screen
 
         private void InitializeKeyboard()
         {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            Oscillator.ResumeWebAudio();
+#endif
+
+            noteNameContainer.style.display = DisplayStyle.Flex;
             selectContainer.style.display = DisplayStyle.None;
 
             var keyboardBass = root.Q<VisualElement>("keyboard-bass");
