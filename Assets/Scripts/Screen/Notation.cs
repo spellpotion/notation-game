@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Time = UnityEngine.Time;
 
 namespace spellpotion.midiTutor.Screen
 {
@@ -19,7 +20,7 @@ namespace spellpotion.midiTutor.Screen
         private readonly Color colorName原 = Color.lightSteelBlue;
         private readonly Color colorAnswerIncorrect = Color.softRed;
         private readonly Color colorAnswerCorrect = Color.springGreen;
-        private readonly Color colorAnswerPartial = Color.orange;
+        private readonly Color colorAnswerPartial = Color.sandyBrown;
 
         private VisualElement root;
         private VisualElement note;
@@ -34,6 +35,9 @@ namespace spellpotion.midiTutor.Screen
 
         private Label score;
         private Button[] keys;
+        private Button buttonPause;
+
+        private bool IsPause => buttonPause.ClassListContains("dark-button-pressed");
 
         private Coroutine releaseNote務;
         private Coroutine showResult務;
@@ -169,6 +173,17 @@ namespace spellpotion.midiTutor.Screen
 
             score = root.Q<Label>("score");
             score.text = "0";
+
+            buttonPause = root.Q<Button>("button-pause");
+            buttonPause.clicked += () =>
+            {
+                buttonPause.ToggleInClassList("dark-button-pressed");
+
+                Manager.Time.SetPause(IsPause);
+
+                UpdateNoteDisplayStyle();
+            };
+            buttonPause.style.display = DisplayStyle.None;
         }
 
         protected void Start()
@@ -279,14 +294,21 @@ namespace spellpotion.midiTutor.Screen
 
                 keys[i] = button;
             }
+
+            buttonPause.style.display = DisplayStyle.Flex;
         }
+
+        private bool noteReleased = false;
+
+        private void UpdateNoteDisplayStyle() 
+            => note.style.display = !IsPause && noteReleased ? DisplayStyle.Flex : DisplayStyle.None;
 
         private IEnumerator ReleaseNote務(LineNote lineNote, float duration)
         {
             var time始 = Time.time;
             var time的 = time始 + duration;
 
-            note.style.display = DisplayStyle.Flex;
+            noteReleased = true; UpdateNoteDisplayStyle();
             note.style.top = new Length(LineNoteToTopOffset(lineNote), LengthUnit.Percent);
 
             while (Time.time < time的)
@@ -300,7 +322,7 @@ namespace spellpotion.midiTutor.Screen
                 yield return null;
             }
 
-            note.style.display = DisplayStyle.None;
+            noteReleased = false; UpdateNoteDisplayStyle();
 
             releaseNote務 = null;
         }
