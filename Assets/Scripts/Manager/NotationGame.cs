@@ -1,3 +1,4 @@
+using spellpotion.Manager;
 using spellpotion.midiTutor.Data;
 using System;
 using System.Collections;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using spellpotion.Manager;
+using System;
 using UnityEngine;
 
 namespace spellpotion.midiTutor.Manager

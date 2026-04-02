@@ -195,4 +195,9 @@ namespace spellpotion.midiTutor
         Demo,
         Endless,
     }
+
+    public enum ScreenType
+    {
+        None,
+    }
 }

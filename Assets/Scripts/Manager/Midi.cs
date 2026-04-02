@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 #else
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Multimedia;
+using spellpotion.Manager;
+
 #endif
 using System;
 using UnityEngine;

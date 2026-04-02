@@ -1,4 +1,5 @@
 ﻿using spellpotion.Manager;
+using spellpotion.Manager.Config;
 using UnityEngine;
 
 namespace spellpotion.midiTutor.Manager.Config

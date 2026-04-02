@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace spellpotion.Manager
+namespace spellpotion.Manager.Config
 {
     public abstract class 抽象Config<T> : 抽象Config
         where T : 抽象Manager<T>

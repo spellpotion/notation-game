@@ -1,11 +1,11 @@
-using spellpotion.Manager;
+using spellpotion.Manager.Config;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace spellpotion
+namespace spellpotion.Manager
 {
     public abstract class 抽象Manager<T, U> : 抽象Manager<T>
         where T : 抽象Manager<T, U>
@@ -112,6 +112,6 @@ namespace spellpotion
 
     public abstract class 抽象Manager : MonoScript
     {
-        public abstract void SetConfig(Manager.抽象Config config);
+        public abstract void SetConfig(抽象Config config);
     }
 }
