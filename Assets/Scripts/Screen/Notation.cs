@@ -179,7 +179,7 @@ namespace spellpotion.midiTutor.Screen
             {
                 buttonPause.ToggleInClassList("dark-button-pressed");
 
-                Manager.Time.SetPause(IsPause);
+                spellpotion.Manager.Time.SetPause(IsPause);
 
                 UpdateNoteDisplayStyle();
             };
