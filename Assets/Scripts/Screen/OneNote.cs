@@ -1,5 +1,6 @@
 using spellpotion.midiTutor.Data;
 using spellpotion.midiTutor.Manager;
+using spellpotion.Screen;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -8,8 +9,7 @@ using Time = UnityEngine.Time;
 
 namespace spellpotion.midiTutor.Screen
 {
-    [RequireComponent(typeof(UIDocument))]
-    public class Notation : 抽象Screen
+    public class OneNote : 抽象Screen
     {
         private const float differenceX = 1450f;
 

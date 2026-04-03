@@ -6,8 +6,24 @@ namespace spellpotion.Manager
 {
     public class Time : 抽象Manager<Time, Config.Time>
     {
+        #region Events
+
+
         public static ActionEvent<bool> OnPauseSet = new(out onPauseSet);
         private static Action<bool> onPauseSet;
+
+
+        #endregion Events
+        #region PublicStatic
+
+
+        public static void SetPause(bool pause)
+            => InstanceRun(x => x.SetPause_Instance(pause));
+
+
+        #endregion PublicStatic
+        #region Common
+
 
         private float timeScale;
 
@@ -16,11 +32,12 @@ namespace spellpotion.Manager
             base.OnEnable();
 
             timeScale = UnityEngine.Time.timeScale;
-            SetPause_Instance(true);
         }
 
-        public static void SetPause(bool pause)
-            => InstanceRun(x => x.SetPause_Instance(pause));
+
+        #endregion Common
+        #region PrivateInstance
+
 
         private void SetPause_Instance(bool pause)
         {
@@ -32,5 +49,8 @@ namespace spellpotion.Manager
 
             onPauseSet?.Invoke(pause);
         }
+
+
+        #endregion PrivateInstance
     }
 }

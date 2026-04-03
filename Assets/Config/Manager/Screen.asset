@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 018d58a887ad55344ac44236efbcca7d, type: 3}
   m_Name: Screen
   m_EditorClassIdentifier: Assembly-CSharp::spellpotion.midiTutor.Manager.Config.Screen
-  InitialScreen: 0
-  screenPrefabs:
-  - {fileID: 5939727672473032092, guid: c0f3c697e74904f48b8869fc9737f277, type: 3}
+  PanelSettings: {fileID: 11400000, guid: 48f901abc7a431447a89183c3c49309c, type: 2}
+  screenConfigs:
+  - {fileID: 11400000, guid: 2d4958c593cda894b9b3c76c1e28028d, type: 2}

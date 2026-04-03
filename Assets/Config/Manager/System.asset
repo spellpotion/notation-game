@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec9a2dc19929474b96cb40a3ee96254, type: 3}
   m_Name: System
   m_EditorClassIdentifier: Assembly-CSharp::spellpotion.midiTutor.Manager.Config.System
-  Configs: []
+  Configs:
+  - {fileID: 11400000, guid: e15c388369c9d984caed9ffa507ff07c, type: 2}
+  - {fileID: 11400000, guid: 376e472c8b223ec4bbfea3908eb126a4, type: 2}
+  - {fileID: 11400000, guid: c7010a0e08e0fa047860c1407a1780c7, type: 2}
