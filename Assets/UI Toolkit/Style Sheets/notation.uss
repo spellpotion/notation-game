@@ -1,0 +1,208 @@
+:root {
+}
+
+.white-key {
+    flex-grow: 1;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    background-color: rgb(245, 245, 245);
+    width: 43px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 1%;
+    padding-left: 0;
+    border-top-width: 0;
+    border-right-width: 1px;
+    border-bottom-width: 4px;
+    border-left-width: 1px;
+    border-left-color: rgb(196, 195, 191);
+    border-right-color: rgb(153, 153, 153);
+    border-top-color: rgb(26, 26, 26);
+    border-bottom-color: rgb(26, 26, 26);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    -unity-text-align: lower-center;
+    -unity-font-style: normal;
+    font-size: 20px;
+    flex-shrink: 1;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+}
+
+.white-key:hover {
+    background-color: rgb(211, 211, 211);
+    transition-property: background-color;
+    transition-duration: 0s;
+}
+
+.white-key:active {
+    background-color: rgb(245, 245, 245);
+}
+
+.black-key {
+    width: 30px;
+    background-color: rgb(51, 51, 51);
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 1%;
+    padding-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    border-left-color: rgb(85, 85, 85);
+    border-right-color: rgb(34, 34, 34);
+    border-top-color: rgb(102, 102, 102);
+    border-bottom-color: rgb(26, 26, 26);
+    border-top-width: 1px;
+    border-right-width: 3px;
+    border-bottom-width: 10px;
+    border-left-width: 3px;
+    flex-grow: 1;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    flex-shrink: 1;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+}
+
+.black-key:hover {
+    background-color: rgb(77, 77, 77);
+    transition-property: background-color;
+    transition-duration: 0s;
+}
+
+.black-key:active {
+    background-color: rgb(51, 51, 51);
+}
+
+.key-space-L {
+    width: 54px;
+    flex-grow: 1;
+}
+
+.key-space-S {
+    width: 9px;
+    flex-grow: 1;
+}
+
+.query {
+    font-size: 64px;
+    -unity-font-style: normal;
+    width: 50%;
+    height: 100%;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#LegacyRuntime");
+}
+
+.keyboard {
+    width: 93%;
+    aspect-ratio: 8;
+}
+
+.life {
+    aspect-ratio: 0.5472482;
+    height: 50px;
+    -unity-background-image-tint-color: rgb(245, 245, 245);
+}
+
+.top-label {
+    -unity-font-definition: url("project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#LegacyRuntime");
+    font-size: 26px;
+    color: rgb(153, 153, 153);
+}
+
+.top-side-container {
+    justify-content: space-between;
+    padding-top: 1%;
+    padding-right: 3.5%;
+    padding-bottom: 1%;
+    padding-left: 3.5%;
+}
+
+.pressed {
+    background-color: rgb(176, 196, 222);
+    transition-property: background-color;
+    transition-timing-function: ease-out;
+    transition-duration: 0s;
+}
+
+
+
+
+
+
+
+
+
+.counter-label {
+    color: rgb(176, 48, 96);
+    align-self: center;
+    font-size: 64px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Quicksand-VariableFont_wght.ttf?fileID=12800000&guid=bacf276746ab5c34a9b0ad8068894e0a&type=3#Quicksand-VariableFont_wght");
+    -unity-font-style: bold;
+}
+
+.side-container {
+    padding-top: 4%;
+    padding-bottom: 4%;
+}
+
+.side-slider {
+}
+
+.side-slider #unity-tracker {
+    width: 8px;
+    margin-left: -4px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    background-color: rgb(0, 0, 0);
+}
+
+.side-slider #unity-dragger {
+    width: 90px;
+    height: 40px;
+    margin-left: -45px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgb(77, 77, 77);
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-top-color: rgb(102, 102, 102);
+    border-right-color: rgb(51, 51, 51);
+    border-bottom-color: rgb(51, 51, 51);
+}
+
+.side-dropdown {
+    height: 80px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    color: rgb(176, 48, 96);
+    -unity-font-definition: url("project://database/Assets/Fonts/Quicksand-VariableFont_wght.ttf?fileID=12800000&guid=bacf276746ab5c34a9b0ad8068894e0a&type=3#Quicksand-VariableFont_wght");
+    font-size: 36px;
+    -unity-font-style: bold;
+    width: 140px;
+}
+
+.side-dropdown #VisualElement {
+}

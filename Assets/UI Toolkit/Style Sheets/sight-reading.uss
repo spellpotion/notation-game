@@ -1,0 +1,159 @@
+:root {
+}
+
+.double-column {
+    max-width: 50%;
+}
+
+.column-line {
+    width: 100%;
+    -unity-font-definition: url("project://database/Assets/Fonts/ChocolateClassicalSans-Regular.ttf?fileID=12800000&guid=4a17cedf53493714cb7880de0a283c0d&type=3#ChocolateClassicalSans-Regular");
+    -unity-text-align: middle-left;
+    font-size: 42px;
+    max-height: 20%;
+    padding-top: 0%;
+    padding-bottom: 2.5%;
+    -unity-font-style: normal;
+    color: rgb(51, 51, 51);
+    padding-left: 3%;
+    padding-right: 3%;
+    min-height: 129px;
+    -unity-text-auto-size: best-fit 10px 1000px;
+    -unity-text-generator: advanced;
+}
+
+.column-line-label {
+    width: 40%;
+    flex-direction: row;
+}
+
+.column-line-label Label {
+    height: 80%;
+    -unity-text-align: middle-left;
+    padding-top: 0%;
+    padding-bottom: 0%;
+    padding-right: 0%;
+    padding-left: 0%;
+    align-self: center;
+}
+
+.column-line-content {
+    width: 60%;
+    padding-left: 3%;
+}
+
+.column-line DropdownField {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-left-color: rgb(153, 153, 153);
+    border-right-color: rgb(128, 128, 128);
+    border-top-color: rgb(153, 153, 153);
+    border-bottom-color: rgb(128, 128, 128);
+}
+
+.column-line DropdownField VisualElement {
+    margin-left: 0;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: rgb(178, 178, 178);
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.column-line DropdownField VisualElement VisualElement {
+    width: 8%;
+}
+
+.column-line Slider {
+}
+
+.column-line #unity-dragger {
+    height: 80px;
+    margin-top: -40px;
+    width: 7%;
+    background-color: rgb(178, 178, 178);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-top-color: rgb(153, 153, 153);
+    border-left-color: rgb(153, 153, 153);
+    border-right-color: rgb(128, 128, 128);
+    border-bottom-color: rgb(128, 128, 128);
+    min-width: 30px;
+}
+
+.column-line #unity-tracker {
+    background-color: rgb(77, 77, 77);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.range-select {
+    aspect-ratio: 1;
+    background-color: rgb(106, 90, 205);
+    overflow: hidden;
+    border-bottom-color: rgb(72, 61, 139);
+    border-right-color: rgb(72, 61, 139);
+    border-top-color: rgb(123, 104, 238);
+    border-left-color: rgb(123, 104, 238);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    height: 100%;
+    max-width: 16%;
+    border-top-width: 14px;
+    border-bottom-width: 14px;
+    border-right-width: 14px;
+    border-left-width: 14px;
+}
+
+.range-select:hover {
+    background-color: rgb(106, 90, 205);
+}
+
+.range-select:active {
+    border-top-color: rgb(72, 61, 139);
+    border-right-color: rgb(132, 112, 255);
+    border-bottom-color: rgb(132, 112, 255);
+    border-left-color: rgb(72, 61, 139);
+    background-color: rgb(123, 104, 238);
+}
+
+.range-select-selected {
+    border-left-color: rgb(135, 206, 250);
+    border-right-color: rgb(70, 130, 180);
+    border-top-color: rgb(135, 206, 250);
+    border-bottom-color: rgb(70, 130, 180);
+}
+
+.range-select-selected:active {
+    border-left-color: rgb(70, 130, 180);
+    border-right-color: rgb(135, 206, 250);
+    border-top-color: rgb(70, 130, 180);
+    border-bottom-color: rgb(135, 206, 250);
+}
+
+.range-select-image {
+    -unity-background-scale-mode: scale-to-fit;
+    flex-grow: 1;
+}
+
+.left-margin {
+    margin-left: 4%;
+}

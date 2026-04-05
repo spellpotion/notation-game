@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::spellpotion.midiTutor.Manager.Config.Screen
   PanelSettings: {fileID: 11400000, guid: 48f901abc7a431447a89183c3c49309c, type: 2}
   screenConfigs:
-  - {fileID: 11400000, guid: 2d4958c593cda894b9b3c76c1e28028d, type: 2}
+  - {fileID: 11400000, guid: 9e4fd8ceeda569443b92542726a270ae, type: 2}
