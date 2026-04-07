@@ -22,6 +22,16 @@
     min-height: 129px;
 }
 
+#header-title {
+    color: rgb(255, 228, 196);
+    -unity-text-align: middle-left;
+    height: 100%;
+    font-size: 68px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Chango-Regular.ttf?fileID=12800000&guid=1c47c62e300dc014c80108c4dd3aafa7&type=3#Chango-Regular");
+    -unity-font-style: bold;
+    padding-bottom: 1%;
+}
+
 #body-container {
     background-color: rgb(105, 105, 105);
     margin-right: 5%;
@@ -36,16 +46,6 @@
     background-color: rgb(51, 51, 51);
     padding-right: 5%;
     padding-left: 5%;
-}
-
-#main-title {
-    color: rgb(255, 228, 196);
-    -unity-text-align: middle-left;
-    height: 100%;
-    font-size: 68px;
-    -unity-font-definition: url("project://database/Assets/Fonts/Chango-Regular.ttf?fileID=12800000&guid=1c47c62e300dc014c80108c4dd3aafa7&type=3#Chango-Regular");
-    -unity-font-style: bold;
-    padding-bottom: 1%;
 }
 
 .header-button {
@@ -71,8 +71,6 @@
 .header-button:active {
     background-color: rgba(210, 180, 140, 0.6);
 }
-
-
 
 .dark-button {
     background-color: rgb(102, 102, 102);
@@ -139,14 +137,68 @@
     background-color: rgb(204, 204, 204);
 }
 
+#unity-content-container {
+    flex-shrink: 1;
+}
 
+.unity-scroller--vertical {
+    width: 2%;
+    min-width: 40px;
+    justify-content: center;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
 
+.unity-scroller--vertical #unity-slider {
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: flex;
+    max-height: 92%;
+}
 
+.unity-scroller--vertical #unity-dragger {
+    background-color: rgb(178, 178, 178);
+    border-right-color: rgb(128, 128, 128);
+    border-bottom-color: rgb(128, 128, 128);
+    border-top-color: rgb(153, 153, 153);
+    border-left-color: rgb(153, 153, 153);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    width: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+}
 
+.unity-scroller--vertical #unity-tracker {
+    background-color: rgb(204, 204, 204);
+}
 
+.unity-scroller--vertical .unity-repeat-button {
+    min-width: 40px;
+    border-left-color: rgb(153, 153, 153);
+    border-right-color: rgb(128, 128, 128);
+    border-top-color: rgb(153, 153, 153);
+    border-bottom-color: rgb(128, 128, 128);
+    width: 100%;
+    min-height: 40px;
+    height: 4%;
+    background-color: rgb(178, 178, 178);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+}
 
-
-
-
-
-
+.unity-scroller--vertical .unity-repeat-button:active {
+    border-top-color: rgb(128, 128, 128);
+    border-left-color: rgb(128, 128, 128);
+    border-right-color: rgb(153, 153, 153);
+    border-bottom-color: rgb(153, 153, 153);
+    background-color: rgb(204, 204, 204);
+}
